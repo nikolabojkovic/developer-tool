@@ -1,0 +1,16 @@
+obj/Debug/netcoreapp2.0/WebApi.csproj.FileListAbsolute.txt
+bin/Debug/netcoreapp2.0/WebApi.dll
+bin/Debug/netcoreapp2.0/WebApi.pdb
+bin/Debug/netcoreapp2.0/WebApi.deps.json
+bin/Debug/netcoreapp2.0/WebApi.runtimeconfig.json
+bin/Debug/netcoreapp2.0/WebApi.runtimeconfig.dev.json
+obj/project.assets.json
+obj/WebApi.csproj.nuget.cache
+obj/WebApi.csproj.nuget.g.props
+obj/WebApi.csproj.nuget.g.targets
+obj/Debug/netcoreapp2.0/WebApi.dll
+obj/Debug/netcoreapp2.0/WebApi.pdb
+obj/Debug/netcoreapp2.0/WebApi.AssemblyInfo.cs
+obj/Debug/netcoreapp2.0/WebApi.AssemblyInfoInputs.cache
+obj/Debug/netcoreapp2.0/WebApi.csproj.CoreCompileInputs.cache
+DotNetCore.notes
