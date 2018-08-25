@@ -34,12 +34,7 @@ namespace Email.Services
                     emailMessage.From = new MailAddress(email);
                     emailMessage.Subject = subject;
                     emailMessage.Body = "Name: " + name + "; Phone: " + phone + "; Message: " + message;
-                    // try {
-                        client.Send(emailMessage);
-                    // } 
-                    // catch(Exception exc) {
-                    //     Console.WriteLine(exc.Message);
-                    // }
+                    client.Send(emailMessage);
                 }
             }
             await Task.CompletedTask;
