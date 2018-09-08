@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using WebApi.Models;
 using WebApi.Interfaces;
@@ -58,6 +60,19 @@ namespace WebApi
 
         public void Configure(IApplicationBuilder app)
         {            
+            app.Use(async (HttpContext context, Func<Task> next) =>
+            {
+                await next.Invoke();
+
+                if (context.Response.StatusCode == 404  && !context.Request.Path.Value.Contains("/api"))
+                {
+                    context.Request.Path = new PathString("/index.html");
+                    await next.Invoke();
+                }
+            });
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
