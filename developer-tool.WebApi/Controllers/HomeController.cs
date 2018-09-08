@@ -12,11 +12,12 @@ namespace WebApi.Controllers
     {
         [Produces("text/html")]
         public IActionResult Index() {
-            var path = "index.html";
-            var response = new HttpResponseMessage();
-            response.Content =  new StringContent(System.IO.File.ReadAllText(path));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-            return Ok(System.IO.File.ReadAllText(path));
+            // var path = "dist/index.html";
+            // var response = new HttpResponseMessage();
+            // response.Content =  new StringContent(System.IO.File.ReadAllText(path));
+            // response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            // return Ok(System.IO.File.ReadAllText(path));
+            return Ok();
         }
     }
 }
