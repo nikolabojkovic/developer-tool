@@ -98,7 +98,7 @@ namespace WebApi.Controllers
             var cv = new Cv {
                 Name = "Nikola Bojkovic CV",
                 Type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                Document = System.IO.File.ReadAllBytes("Nikola Bojkovic CV.docx")
+                Document = System.IO.File.ReadAllBytes("static-files/Nikola Bojkovic CV.docx")
             };
 
             return cv;
