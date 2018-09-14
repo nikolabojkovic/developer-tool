@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
+using Infrastructure;
+using Infrastructure.Models;
 using System.Linq;
 
 namespace WebApi.Controllers

@@ -5,15 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.Data.EntityFrameworkCore.Storage.Internal;
 using System;
-using WebApi.Models;
+using Infrastructure.Models;
 
-namespace WebApi.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TestContext))]
-    [Migration("20180219213720_InitialCreate")]
-    partial class InitialCreate
+    partial class TestContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

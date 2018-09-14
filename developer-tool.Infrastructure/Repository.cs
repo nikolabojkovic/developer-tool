@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using WebApi.Interfaces;
+using Core.Interfaces;
 
-namespace WebApi.Domain
+namespace Infrastructure
 {
-    public class Repository<T> : IRepository<T> where T : class, IEntity
+    public class Repository<T> : IRepository<T> where T : Entity
     {
         private IUnitOfWork _unitOfWork;
 

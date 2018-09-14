@@ -1,8 +1,7 @@
-namespace WebApi.Models 
+namespace Infrastructure.Models 
 {
-    public class TodoItem
+    public class TodoItem : Entity
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public bool IsComplete { get; set; }
     }

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApi.Interfaces;
-using WebApi.Domain;
-using WebApi.Models;
+using Core.Interfaces;
+using Domain.Interfaces;
+using Infrastructure.Models;
 
-namespace WebApi.Services
+namespace Domain.Services
 {
     public class TestService : ITestService
     {

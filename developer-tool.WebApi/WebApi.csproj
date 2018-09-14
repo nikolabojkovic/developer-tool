@@ -19,6 +19,11 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"  />
+    <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\developer-tool.core\Core.csproj" />
+    <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\developer-tool.Domain\Domain.csproj" />
   </ItemGroup>
 </Project>

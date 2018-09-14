@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
-using WebApi.Interfaces;
+using Infrastructure.Models;
+using Domain.Interfaces;
 using WebApi.ViewModels;
 
 namespace WebApi.Controllers 

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\developer-tool.core\Core.csproj" />
+    <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
