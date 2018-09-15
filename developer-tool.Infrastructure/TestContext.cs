@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Models;
 
-namespace WebApi.Models
+namespace Infrastructure
 {
     public class TestContext : DbContext
     {

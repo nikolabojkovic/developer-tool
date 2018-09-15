@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Interfaces
+namespace Core.Interfaces
 {
     public interface IUnitOfWork
     {

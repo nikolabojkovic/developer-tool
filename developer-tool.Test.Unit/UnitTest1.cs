@@ -3,9 +3,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 using Moq;
-using WebApi.Interfaces;
-using WebApi.Services;
-using WebApi.Models;
+using Core.Interfaces;
+using Domain.Services;
+using Infrastructure.Models;
 
 namespace TestUnit
 {

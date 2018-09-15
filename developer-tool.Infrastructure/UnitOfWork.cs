@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using WebApi.Interfaces;
-using WebApi.Models;
+using Core.Interfaces;
 
-namespace WebApi.Domain
+namespace Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {

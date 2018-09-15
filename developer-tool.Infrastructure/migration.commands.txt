@@ -1,0 +1,16 @@
+// root folder path
+/Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.infrastructure
+cd developer-tool.infrastructure
+
+// add new
+dotnet ef migrations add TestMigration --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+// remove
+dotnet ef migrations remove --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+// target(revert to) specific migration
+dotnet ef database update 20180219213720_InitialCreate --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+// update database
+dotnet ef database update --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+// see migration list
+dotnet ef migrations list --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj

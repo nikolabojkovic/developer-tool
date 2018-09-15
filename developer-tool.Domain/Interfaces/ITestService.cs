@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using WebApi.Models;
+using Infrastructure.Models;
 
-namespace WebApi.Interfaces
+namespace Domain.Interfaces
 {
     public interface ITestService
     {

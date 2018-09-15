@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebApi.Models;
 using Newtonsoft.Json;
 using Xunit;
-using WebApi.Interfaces;
+using Core.Interfaces;
+using Infrastructure.Models;
 
 namespace TestIntegration
 {

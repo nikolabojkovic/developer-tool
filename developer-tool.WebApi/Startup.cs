@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using FluentValidation.AspNetCore;
-using WebApi.Models;
-using WebApi.Interfaces;
-using WebApi.Services;
-using WebApi.Domain;
-using WebApi.Validation;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using FluentValidation.AspNetCore;
 using System;
+using System.Threading.Tasks;
 using Email.Services;
+using Infrastructure;
+using Infrastructure.Models;
+using Core.Interfaces;
+using Domain.Interfaces;
+using Domain.Services;
+using WebApi.Validation;
 
 namespace WebApi
 {
@@ -44,7 +45,8 @@ namespace WebApi
             });
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddDbContext<TestContext>(opt =>
-                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
+                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
+                                  x => x.MigrationsAssembly("Infrastructure")));
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepository<Test>, Repository<Test>>();

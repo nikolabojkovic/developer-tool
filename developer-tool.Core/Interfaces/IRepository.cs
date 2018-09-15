@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace WebApi.Interfaces
+namespace Core.Interfaces
 {
     public interface IRepository<T>
     {

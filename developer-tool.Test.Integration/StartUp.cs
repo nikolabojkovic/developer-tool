@@ -1,18 +1,21 @@
+using Email.Services;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using FluentValidation.AspNetCore;
-using WebApi.Models;
-using WebApi.Interfaces;
-using WebApi.Services;
-using WebApi.Domain;
-using WebApi.Validation;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
-using Email.Services;
+using Core;
+using Core.Interfaces;
+using Infrastructure;
+using Infrastructure.Models;
+using Domain.Interfaces;
+using Domain.Services;
+using WebApi.Validation;
+
 
 namespace TestIntegration
 {
