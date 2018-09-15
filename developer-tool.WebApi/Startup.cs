@@ -45,7 +45,8 @@ namespace WebApi
             });
             services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
             services.AddDbContext<TestContext>(opt =>
-                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
+                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
+                                  x => x.MigrationsAssembly("Infrastructure")));
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepository<Test>, Repository<Test>>();
