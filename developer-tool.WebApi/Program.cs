@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure;
 using WebApi.Data;
+using Autofac.Extensions.DependencyInjection;
 
 namespace WebApi
 {
@@ -17,13 +18,14 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            var host = BuildWebHost(args);            
             SeedDatabase(host);
             host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+               // .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .Build();
 

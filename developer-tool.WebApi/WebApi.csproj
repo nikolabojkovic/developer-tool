@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
   </ItemGroup>
@@ -22,6 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.core\Core.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\developer-tool.Domain\Domain.csproj" />
+    <ProjectReference Include="..\developer-tool.domain\Domain.csproj" />
   </ItemGroup>
 </Project>

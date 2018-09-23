@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -15,12 +16,17 @@ using Core.Interfaces;
 using Domain.Interfaces;
 using Domain.Services;
 using WebApi.Validation;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using System.Reflection;
+
+using System.Linq;
 
 namespace WebApi
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -59,8 +65,10 @@ namespace WebApi
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
-        public void Configure(IApplicationBuilder app)
-        {            
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {     
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();       
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
                 await next.Invoke();
@@ -77,6 +85,27 @@ namespace WebApi
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
+
+        // public void ConfigureContainer(ContainerBuilder builder)
+        // {
+        //     // var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+
+        //     // loadedAssemblies
+        //     //     .SelectMany(x => x.GetReferencedAssemblies())
+        //     //     .Distinct()
+        //     //     .Where(y => loadedAssemblies.Any((a) => a.FullName == y.FullName) == false)
+        //     //     .ToList()
+        //     //     .ForEach(x => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(x)));
+        //     // var test = Assembly.Load("Domain");
+
+        //     // builder.RegisterAssemblyTypes(Assembly.Load("Infrastructure"))
+        //     //        .Where(t => t.Name.EndsWith("Repository"))
+        //     //        .AsImplementedInterfaces();
+
+        //     // builder.RegisterAssemblyTypes(Assembly.Load("Domain"))
+        //     //        .Where(t => t.Name.EndsWith("Service"))
+        //     //        .AsImplementedInterfaces();  
+        // }
     }
 
     public class HtmlOutputFormatter : StringOutputFormatter
