@@ -53,9 +53,9 @@ namespace WebApi
             services.AddDbContext<TestContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Infrastructure")));
-            services.AddTransient<ITestService, TestService>();
+            //services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IRepository<Test>, Repository<Test>>();
+            //services.AddTransient<IRepository<Test>, Repository<Test>>();
             services.AddTransient<IEmailService, EmailService>();
             
             services.AddMvc(opt => {
@@ -86,26 +86,25 @@ namespace WebApi
             app.UseMvc();
         }
 
-        // public void ConfigureContainer(ContainerBuilder builder)
-        // {
-        //     // var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            Assembly[] assemblies = {
+                Assembly.Load("Infrastructure"),
+                Assembly.Load("Domain"),
+                Assembly.Load("Core"),
+                Assembly.Load("WebApi")
+            };
 
-        //     // loadedAssemblies
-        //     //     .SelectMany(x => x.GetReferencedAssemblies())
-        //     //     .Distinct()
-        //     //     .Where(y => loadedAssemblies.Any((a) => a.FullName == y.FullName) == false)
-        //     //     .ToList()
-        //     //     .ForEach(x => loadedAssemblies.Add(AppDomain.CurrentDomain.Load(x)));
-        //     // var test = Assembly.Load("Domain");
+            builder.RegisterAssemblyTypes(assemblies)
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .AsImplementedInterfaces();  
+            
+            builder.RegisterGeneric(typeof(Repository<>))
+                   .As(typeof(IRepository<>));
 
-        //     // builder.RegisterAssemblyTypes(Assembly.Load("Infrastructure"))
-        //     //        .Where(t => t.Name.EndsWith("Repository"))
-        //     //        .AsImplementedInterfaces();
-
-        //     // builder.RegisterAssemblyTypes(Assembly.Load("Domain"))
-        //     //        .Where(t => t.Name.EndsWith("Service"))
-        //     //        .AsImplementedInterfaces();  
-        // }
+            // builder.RegisterType<TestService>().As<ITestService>();
+            // builder.RegisterType<Repository<Test>>().As<IRepository<Test>>();
+        }
     }
 
     public class HtmlOutputFormatter : StringOutputFormatter
