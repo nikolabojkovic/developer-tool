@@ -53,9 +53,7 @@ namespace WebApi
             services.AddDbContext<TestContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Infrastructure")));
-            //services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            //services.AddTransient<IRepository<Test>, Repository<Test>>();
             services.AddTransient<IEmailService, EmailService>();
             
             services.AddMvc(opt => {
