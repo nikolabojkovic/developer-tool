@@ -27,19 +27,16 @@ namespace Infrastructure
         public void Add(T newEntity)
         {
             _unitOfWork.Data.Set<T>().Add(newEntity);
-            _unitOfWork.Commit();
         }
 
         public void Update(T entity)
         {
             _unitOfWork.Data.Set<T>().Update(entity);
-            _unitOfWork.Commit();
         }
 
         public void Delete(T entity)
         {
             _unitOfWork.Data.Set<T>().Remove(entity);
-            _unitOfWork.Commit();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Models;
 using Domain.Interfaces;
 using WebApi.ViewModels;
+using WebApi.Filters;
 
 namespace WebApi.Controllers 
 {
@@ -42,6 +43,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [TransactionFilter]
         public IActionResult Create([FromBody] TestViewModel item)
         {
             if (item == null)
@@ -59,6 +61,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [TransactionFilter]
         public IActionResult Update([FromBody] TestViewModel item)
         {
             if (item == null)
@@ -80,6 +83,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [TransactionFilter]
         public IActionResult Delete(int id)
         {
             var item = _testService.GetById(id);

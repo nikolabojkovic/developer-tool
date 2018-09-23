@@ -1,0 +1,100 @@
+db viewer - sequel pro
+dotnet add package MySql.Data.EntityFrameworkCore --version 6.10.6
+UseMySQL - SQL have to be uppercase letters
+
+dotnet build --configuration Release
+
+to deploy: dotnet publish -f netcoreapp2.0 -c Release
+
+db connection string 
+"MySqlConnection": "server=mysql6001.site4now.net;userid=a355da_test;pwd=gaim5867;port=3306;database=db_a355da_test;sslmode=none;"
+
+///////////////////////////////////////////////////////
+entity framework commants:
+dotnet ef database drop --context TestContext
+dotnet ef migrations add InitialCreate --context TestContext
+dotnet ef database update
+
+
+////////////////////////////////// asp.net hosting trail
+username: nikolabojkovic
+pass: gaim5867
+
+hosting dashboard link: http://member3.myasp.net/account/account_screen
+login id : nikolabojkovic-001
+site name: dotnetcorewebapi
+FTP Address ：	FTP-EU.SITE4NOW.NET
+FTP Username ：	nikolabojkovic-001
+
+FTP Login 
+Ftp address: ftp-eu.myasp.net 
+Ftp username: nikolabojkovic-001 
+
+http://nikolabojkovic-001-site1.ctempurl.com 
+
+db:
+db_a355da_test
+MYSQL: mysql6001.site4now.net
+Username: a355da_test
+
+///////////////////////////////////
+
+set environment:
+
+when runing app
+ASPNETCORE_ENVIRONMENT=Development dotnet run
+
+prior to running app:
+export ASPNETCORE_ENVIRONMENT=Development
+
+// add new package command 
+dotnet add package EntityFramework
+
+// add project reference 
+dotnet add Test.Integration/Test.Integration.csproj reference WebApi.csproj
+
+// run Test
+navigate to test folder and run:
+dotnet test
+
+// host angular and web api on the same domain
+https://www.blinkingcaret.com/2018/01/24/angular-and-asp-net-core/
+
+// dotnet commands
+// infrastructure 
+/Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Infrastructure
+
+// web api
+dotnet build /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.WebApi
+
+cd developer-tool.webapi
+ASPNETCORE_ENVIRONMENT=Development dotnet run
+
+// unit test
+dotnet build /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Unit
+dotnet test /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Unit
+
+// integration test
+dotnet build /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Integration
+dotnet test /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Integration
+
+////////// migartion commands ////////
+
+// root folder path
+/Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.infrastructure
+cd developer-tool.infrastructure
+
+// add new
+dotnet ef migrations add TestMigration --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+// remove
+dotnet ef migrations remove --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+// target(revert to) specific migration
+dotnet ef database update 20180219213720_InitialCreate --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+// update database
+dotnet ef database update --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+// see migration list
+dotnet ef migrations list --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+///////// end migration commands /////
