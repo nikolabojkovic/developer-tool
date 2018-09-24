@@ -36,8 +36,9 @@ namespace WebApi
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<TestContext>();
+                    var context = services.GetRequiredService<BackOfficeContext>();
                     DbInitializer.Initialize(context);
+                    DbInitializer.Seed(context);
                 }
                 catch (Exception ex)
                 {

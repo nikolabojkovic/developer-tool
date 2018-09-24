@@ -19,6 +19,7 @@ using WebApi.Validation;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
+using AutoMapper;
 
 using System.Linq;
 
@@ -49,13 +50,13 @@ namespace WebApi
                                .AllowCredentials();
                     });
             });
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-            services.AddDbContext<TestContext>(opt =>
+            services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
+            services.AddDbContext<BackOfficeContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Infrastructure")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailService, EmailService>();
-            
+            services.AddAutoMapper();
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());

@@ -3,9 +3,9 @@ using Infrastructure.Models;
 
 namespace Infrastructure
 {
-    public class TodoContext : DbContext
+    public class InMemoryContext : DbContext
     {
-        public TodoContext(DbContextOptions<TodoContext> options)
+        public InMemoryContext(DbContextOptions<InMemoryContext> options)
             :base(options)
         {
         }

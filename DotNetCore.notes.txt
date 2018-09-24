@@ -78,6 +78,9 @@ dotnet test /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.T
 dotnet build /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Integration
 dotnet test /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.Test.Integration
 
+// run specific test 
+dotnet test --filter GetCalendarEvents_ShouldReturnAllItems
+
 ////////// migartion commands ////////
 
 // root folder path
@@ -85,16 +88,16 @@ dotnet test /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.T
 cd developer-tool.infrastructure
 
 // add new
-dotnet ef migrations add TestMigration --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef migrations add TestMigration --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 // remove
-dotnet ef migrations remove --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef migrations remove --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 // target(revert to) specific migration
-dotnet ef database update 20180219213720_InitialCreate --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef database update 20180219213720_InitialCreate --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 
 // update database
-dotnet ef database update --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef database update --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 
 // see migration list
-dotnet ef migrations list --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef migrations list --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 
 ///////// end migration commands /////

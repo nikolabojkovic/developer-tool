@@ -9,8 +9,8 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class TodoController : Controller
     {
-        private readonly TodoContext _context;
-        public TodoController(TodoContext context)
+        private readonly InMemoryContext _context;
+        public TodoController(InMemoryContext context)
         {
             _context = context;
 

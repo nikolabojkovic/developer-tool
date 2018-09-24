@@ -5,9 +5,9 @@ namespace Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private TestContext _context;
+        private BackOfficeContext _context;
 
-        public UnitOfWork(TestContext context)
+        public UnitOfWork(BackOfficeContext context)
         {
             _context = context;
         }
