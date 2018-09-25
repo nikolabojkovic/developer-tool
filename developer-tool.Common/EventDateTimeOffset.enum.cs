@@ -4,6 +4,7 @@ namespace Common.Enums
 {
     public enum EventDateTimeOffset
     {
+        Undefined = 0,
         AtTimeOfEvent = 1,
         FiveMinBefore = 2,
         TenMinBefore = 3,

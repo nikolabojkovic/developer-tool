@@ -6,6 +6,7 @@ using WebApi.ViewModels;
 using WebApi.Filters;
 using AutoMapper;
 using System.Collections.Generic;
+using WebApi.InputModels;
 
 namespace WebApi.Controllers 
 {
@@ -33,35 +34,41 @@ namespace WebApi.Controllers
             return new ObjectResult(_mapper.Map<IEnumerable<CalendarEventViewModel>>(items));
         }
 
-        // [HttpGet("{id}", Name="GetById")]
-        // public IActionResult GetById(int id)
-        // {
-        //     var item = _testService.GetById(id);
-        //     if (item == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var item = _calendarService.GetById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
 
-        //     return new ObjectResult(item);
-        // }
+            return new ObjectResult(_mapper.Map<CalendarEventViewModel>(item));
+        }
 
-        // [HttpPost]
-        // [TransactionFilter]
-        // public IActionResult Create([FromBody] TestViewModel item)
-        // {
-        //     if (item == null)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPost]
+        [TransactionFilter]
+        public IActionResult Create([FromBody] CalendarEventInputModel item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
 
-        //     // replace this with auto mapper
-        //     var newItem = new Test();
-        //     newItem.Id = item.Id;
-        //     newItem.FirstName = item.FirstName;
+            // replace this with auto mapper
+            var newItem = CalendarEvent.Create(
+                item.Color,
+                item.Title,
+                item.Description,
+                item.Start,
+                item.End,
+                item.IsReminderEnabled,
+                item.ReminderTime,
+                item.ReminderTimeOffset);
 
-        //     _testService.Store(newItem);
-        //     return CreatedAtRoute("GetById", new { id = newItem.Id }, newItem);
-        // }
+            _calendarService.Store(newItem);
+            return NoContent();
+        }
 
         // [HttpPut]
         // [TransactionFilter]
