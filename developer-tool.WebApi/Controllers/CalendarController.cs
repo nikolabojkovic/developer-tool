@@ -1,6 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure.Models;
+using Domain.Models;
 using Domain.Interfaces;
 using WebApi.ViewModels;
 using WebApi.Filters;
@@ -26,45 +26,39 @@ namespace WebApi.Controllers
         public IActionResult GetAll()
         {
             var items = _calendarService.GetAllData();
-            if (items == null)
-            {
-                return NotFound();
-            }
-
-            return new ObjectResult(_mapper.Map<IEnumerable<CalendarEventViewModel>>(items));
+            if (items == null) return NoContent();
+            var viewModels = _mapper.Map<IEnumerable<CalendarEventViewModel>>(items);
+            return new ObjectResult(viewModels);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetBy(int id)
         {
             var item = _calendarService.GetById(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
+            if (item == null) return NoContent();
 
             return new ObjectResult(_mapper.Map<CalendarEventViewModel>(item));
         }
 
         [HttpPost]
         [TransactionFilter]
-        public IActionResult Create([FromBody] CalendarEventInputModel item)
+        public IActionResult Post([FromBody] CalendarEventInputModel item)
         {
-            if (item == null)
-            {
-                return BadRequest();
-            }
+            if (item == null) return BadRequest();
 
-            // replace this with auto mapper
+            // replace command pattern or builder pattern 
             var newItem = CalendarEvent.Create(
                 item.Color,
                 item.Title,
                 item.Description,
                 item.Start,
-                item.End,
-                item.IsReminderEnabled,
-                item.ReminderTime,
-                item.ReminderTimeOffset);
+                item.End);
+
+            if (item.Reminder != null)    
+                newItem.WithReminder(
+                    Reminder.Create(
+                        item.Reminder.Time,
+                        item.Reminder.TimeOffset));
 
             _calendarService.Store(newItem);
             return NoContent();
@@ -72,7 +66,7 @@ namespace WebApi.Controllers
 
         // [HttpPut]
         // [TransactionFilter]
-        // public IActionResult Update([FromBody] TestViewModel item)
+        // public IActionResult Put([FromBody] TestViewModel item)
         // {
         //     if (item == null)
         //     {
@@ -105,18 +99,5 @@ namespace WebApi.Controllers
         //     _testService.Remove(item);
         //     return new NoContentResult();
         // }
-
-        // move to separate controller
-        [HttpGet("~/api/download")]
-        public Cv cv() 
-        {
-            var cv = new Cv {
-                Name = "Nikola Bojkovic CV",
-                Type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                Document = System.IO.File.ReadAllBytes("static-files/Nikola Bojkovic CV.docx")
-            };
-
-            return cv;
-        }
     }
 }

@@ -1,3 +1,5 @@
+using Infrastructure.Core;
+
 namespace Infrastructure.Models 
 {
     public class TodoItem : Entity

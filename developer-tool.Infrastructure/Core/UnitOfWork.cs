@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
+using Infrastructure.DbContexts;
 
-namespace Infrastructure
+namespace Infrastructure.Core
 {
     public class UnitOfWork : IUnitOfWork
     {

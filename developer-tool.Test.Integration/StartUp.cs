@@ -10,12 +10,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using Core;
 using Core.Interfaces;
-using Infrastructure;
+using Infrastructure.DbContexts;
 using Infrastructure.Models;
+using Infrastructure.Core;
 using Domain.Interfaces;
 using Domain.Services;
 using WebApi.Validation;
-using WebApi.Data;
+using Infrastructure.Data;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
@@ -49,9 +50,7 @@ namespace TestIntegration
                     });
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
-            services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IRepository<Test>, Repository<Test>>();
             services.AddTransient<IEmailService, EmailService>();            
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc(opt => {
@@ -96,7 +95,7 @@ namespace TestIntegration
         private void PopulateTestData(IApplicationBuilder app)
         {
             var dbContext = app.ApplicationServices.GetService<BackOfficeContext>();
-            DbInitializer.Seed(dbContext);
+            DbInitializer.SeedEvents(dbContext);
         }
     }
 

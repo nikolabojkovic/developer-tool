@@ -1,15 +1,16 @@
 using System;
 using Common.Enums;
+using Infrastructure.Core;
 
-namespace WebApi.InputModels 
+namespace Infrastructure.Models 
 {
-    public class CalendarEventInputModel {
-        public int Id { get; set; }
+    public class Event : Entity
+    {
         public string Color { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public ReminderInputModel Reminder { get; set; }
+        public Reminder Reminder { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Email.Services;
-using WebApi.ViewModels;
+using WebApi.InputModels;
 
 namespace WebApi.Controllers {
 
@@ -19,8 +19,8 @@ namespace WebApi.Controllers {
 
         }
 
-        [HttpPost("email")]
-        public async Task<IActionResult> SendEmailAsync([FromBody] EmailViewModel contact)
+        [HttpPost("send/email")]
+        public async Task<IActionResult> SendEmailAsync([FromBody] EmailInputModel contact)
         {
             await _emailService.SendEmail(contact.Name, contact.Phone, contact.Email, contact.Subject, contact.Message);
             return Ok();

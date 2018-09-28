@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Models;
 
-namespace Infrastructure
+namespace Infrastructure.DbContexts
 {
     public class InMemoryContext : DbContext
     {

@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure;
-using WebApi.Data;
+using Infrastructure.DbContexts;
+using Infrastructure.Data;
 using Autofac.Extensions.DependencyInjection;
 
 namespace WebApi
@@ -38,7 +38,7 @@ namespace WebApi
                 {
                     var context = services.GetRequiredService<BackOfficeContext>();
                     DbInitializer.Initialize(context);
-                    DbInitializer.Seed(context);
+                    DbInitializer.SeedEvents(context);
                 }
                 catch (Exception ex)
                 {

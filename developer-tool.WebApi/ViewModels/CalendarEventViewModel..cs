@@ -9,8 +9,6 @@ namespace WebApi.ViewModels {
         public string Description { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public bool IsReminderEnabled { get; set; }
-        public DateTime? ReminderTime { get; set; }
-        public EventDateTimeOffset? ReminderTimeOffset { get; set; }
+        public ReminderViewModel Reminder { get; set; }
     }
 }

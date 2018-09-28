@@ -16,26 +16,24 @@ using System.Text;
 
 namespace TestIntegration
 {
-    public class CalendarEventsBadRequestTest : IntegrationTestBase
+    public class CalendarEventsFailedTest : IntegrationTestBase
     {
         private readonly HttpClient _client;
-        private const bool reminderOn = true;
-        private const bool reminderOff = false;
 
-        public CalendarEventsBadRequestTest() 
+        public CalendarEventsFailedTest() 
         {
             _client = base.GetClient();
         }
 
         [Theory]
         [InlineData(4)]
-        public async Task GetCalendarEventById_ShouldNotFound(int id)
+        public async Task GetCalendarEventById_ShouldNoContentFound(int id)
         {
             var response = await _client.GetAsync($"/api/calendar/events/{id}");
             var stringResponse = await response.Content.ReadAsStringAsync();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound); 
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent); 
         }
 
         [Fact]

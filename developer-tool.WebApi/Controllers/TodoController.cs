@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure;
+using Infrastructure.DbContexts;
 using Infrastructure.Models;
 using System.Linq;
 

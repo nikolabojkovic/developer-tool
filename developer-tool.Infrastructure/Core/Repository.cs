@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using Core.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure
+namespace Infrastructure.Core
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {

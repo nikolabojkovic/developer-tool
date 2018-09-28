@@ -2,7 +2,7 @@
 
 namespace Common.Enums
 {
-    public enum EventDateTimeOffset
+    public enum ReminderTimeOffset
     {
         Undefined = 0,
         AtTimeOfEvent = 1,

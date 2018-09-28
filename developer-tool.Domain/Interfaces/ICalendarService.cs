@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Infrastructure.Models;
+using Domain.Models;
 
 namespace Domain.Interfaces
 {
@@ -7,8 +7,8 @@ namespace Domain.Interfaces
     {
         IEnumerable<CalendarEvent> GetAllData();
         CalendarEvent GetById(int id);
-        void Store(CalendarEvent entity);
-        void Update(CalendarEvent entity);
-        void Remove(CalendarEvent entity);
+        void Store(CalendarEvent item);
+        void Update(CalendarEvent item);
+        void Remove(CalendarEvent item);
     }
 }

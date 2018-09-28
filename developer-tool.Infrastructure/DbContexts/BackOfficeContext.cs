@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Models;
 
-namespace Infrastructure
+namespace Infrastructure.DbContexts
 {
     public class BackOfficeContext : DbContext
     {
@@ -10,6 +10,6 @@ namespace Infrastructure
         {
         }
 
-        public DbSet<CalendarEvent> CalendarEvents { get; set; }
+        public DbSet<Event> CalendarEvents { get; set; }
     }
 }
