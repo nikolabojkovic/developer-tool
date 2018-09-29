@@ -49,8 +49,9 @@ namespace Domain.Services
         public void Update(CalendarEvent entity)
         {
             var existingItem = _calendarEventRepository.Find(x => x.Id == entity.Id)
+                                                       .Include(x => x.Reminder)
                                                        .FirstOrDefault();            
-            _mapper.Map<CalendarEvent, Event>(entity, existingItem);
+            existingItem = _mapper.Map<CalendarEvent, Event>(entity, existingItem);
             _calendarEventRepository.Update(existingItem);
         }
 

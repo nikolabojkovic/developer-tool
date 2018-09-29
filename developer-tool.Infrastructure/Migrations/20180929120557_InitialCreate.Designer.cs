@@ -11,8 +11,8 @@ using System;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BackOfficeContext))]
-    [Migration("20180928220904_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180929120557_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReminderId");
+                    b.HasIndex("ReminderId")
+                        .IsUnique();
 
                     b.ToTable("CalendarEvents");
                 });
@@ -61,8 +62,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Event", b =>
                 {
                     b.HasOne("Infrastructure.Models.Reminder", "Reminder")
-                        .WithMany()
-                        .HasForeignKey("ReminderId");
+                        .WithOne("Event")
+                        .HasForeignKey("Infrastructure.Models.Event", "ReminderId");
                 });
 #pragma warning restore 612, 618
         }

@@ -40,7 +40,7 @@ namespace TestIntegration
 
         [Theory]
         [InlineData(1, "#00abff", "Test title event 1", "Test description event 1", "2018-9-24", "2018-9-26", "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
-        public async Task GetCalendarEventById_ShouldReturnEventWithReminder(
+        public async Task GetCalendarEvent_ById_ShouldReturnEventWithReminder(
             int id, 
             string color, 
             string title, 
@@ -50,6 +50,7 @@ namespace TestIntegration
             string reminderTime, 
             ReminderTimeOffset reminderTimeOffset)
         {
+            var optionalEndDate = end == null ? default(DateTime?) : DateTime.Parse(end);
             var response = await _client.GetAsync($"/api/calendar/events/{id}");
             response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -61,7 +62,7 @@ namespace TestIntegration
             result.Title.Should().Be(title);
             result.Description.Should().Be(description);
             result.Start.Should().Be(DateTime.Parse(start));
-            result.End.Should().Be(DateTime.Parse(end));
+            result.End.Should().Be(optionalEndDate);
             result.Reminder.Time.Should().Be(DateTime.Parse(reminderTime));
             result.Reminder.TimeOffset.Should().Be(reminderTimeOffset);
         }
@@ -69,7 +70,7 @@ namespace TestIntegration
         [Theory]
         [InlineData(2, "#00abff", "Test title event 2", "Test description event 2", "2018-9-27")]
         [InlineData(3, "#00abff", "Test title event 3", "Test description event 3", "2018-9-25", "2018-9-30")]
-        public async Task GetCalendarEventById_ShouldReturnEvent(
+        public async Task GetCalendarEvent_ById_ShouldReturnEvent(
             int id, 
             string color, 
             string title, 
@@ -77,6 +78,7 @@ namespace TestIntegration
             string start, 
             string end = null)
         {
+            var optionalEndDate = end == null ? default(DateTime?) : DateTime.Parse(end);
             var response = await _client.GetAsync($"/api/calendar/events/{id}");
             response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -88,41 +90,7 @@ namespace TestIntegration
             result.Title.Should().Be(title);
             result.Description.Should().Be(description);
             result.Start.Should().Be(DateTime.Parse(start));
-            if (end == null) result.End.Should().BeNull(); else result.End.Should().Be(DateTime.Parse(end));
-        }
-
-        [Theory]
-        [InlineData("#00abff", "Test post title event 1", "Test post description event 1", "2018-9-21", "2018-9-23", "2018/9/21 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
-        public async Task PostCalendarEventWithReminder_ShouldReturnNoContentResult(
-            string color, 
-            string title, 
-            string description,
-            string start, 
-            string end,
-            string reminderTime, 
-            ReminderTimeOffset reminderTimeOffset)
-        {
-            // Arrange
-            CalendarEventInputModel inputModel = new CalendarEventInputModel {
-                Color = color,
-                Title = title,
-                Description = description,
-                Start = DateTime.Parse(start),
-                End = end == null ? default(DateTime) : DateTime.Parse(end),
-                Reminder = new ReminderInputModel {
-                    Time = DateTime.Parse(reminderTime),
-                    TimeOffset = reminderTimeOffset
-                }
-            };
-            var json = JsonConvert.SerializeObject(inputModel);
-            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-
-            // Act
-            var response = await _client.PostAsync($"/api/calendar/events/", stringContent);
-            response.EnsureSuccessStatusCode();
-
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);            
+            result.End.Should().Be(optionalEndDate);
         }
 
         [Theory]
@@ -151,7 +119,117 @@ namespace TestIntegration
             response.EnsureSuccessStatusCode();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);            
+        }
+
+        [Theory]
+        [InlineData("#00abff", "Test post title event 1", "Test post description event 1", "2018-9-21", "2018-9-23", "2018/9/21 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
+        public async Task PostCalendarEvent_WithReminder_ShouldReturnNoContentResult(
+            string color, 
+            string title, 
+            string description,
+            string start, 
+            string end,
+            string reminderTime, 
+            ReminderTimeOffset reminderTimeOffset)
+        {
+            // Arrange
+            CalendarEventInputModel inputModel = new CalendarEventInputModel {
+                Color = color,
+                Title = title,
+                Description = description,
+                Start = DateTime.Parse(start),
+                End = end == null ? default(DateTime) : DateTime.Parse(end),
+                Reminder = new ReminderInputModel {
+                    Time = DateTime.Parse(reminderTime),
+                    TimeOffset = reminderTimeOffset
+                }
+            };
+            var json = JsonConvert.SerializeObject(inputModel);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PostAsync($"/api/calendar/events/", stringContent);
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);            
+        }
+
+        [Theory]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-21", "2018-9-24")]
+        [InlineData(2, "#00abff", "Test update title event 2.2", "Test update description event 2.2", "2018-9-22")]
+        public async Task UpateCalendarEvent_ShouldReturnNoContentResult(
+            int id,
+            string color, 
+            string title, 
+            string description,
+            string start, 
+            string end = null)
+        {
+            // Arrange
+            CalendarEventInputModel inputModel = new CalendarEventInputModel {
+                Id = id,
+                Color = color,
+                Title = title,
+                Description = description,
+                Start = DateTime.Parse(start),
+                End = end == null ? default(DateTime?) : DateTime.Parse(end)
+            };
+            var json = JsonConvert.SerializeObject(inputModel);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"/api/calendar/events/", stringContent);
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Check updated data
+            await GetCalendarEvent_ById_ShouldReturnEvent(id, color, title, description, start, end);      
+        }
+
+        [Theory]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", null, 1, "2018/9/22 09:40:00", ReminderTimeOffset.FifteenMinBefore)]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", "2018-9-23", 1, "2018/9/22 09:40:00", ReminderTimeOffset.ThirtyMinBefore)]
+        public async Task UpdateCalendarEvent_WithReminder_ShouldReturnNoContentResult(
+            int id, 
+            string color, 
+            string title, 
+            string description,
+            string start, 
+            string end,
+            int reminderId,
+            string reminderTime, 
+            ReminderTimeOffset reminderTimeOffset)
+        {
+            // Arrange
+            CalendarEventInputModel inputModel = new CalendarEventInputModel {
+                Id = id,
+                Color = color,
+                Title = title,
+                Description = description,
+                Start = DateTime.Parse(start),
+                End = end == null ? default(DateTime?) : DateTime.Parse(end),
+                Reminder = new ReminderInputModel {
+                    Id = id,
+                    Time = DateTime.Parse(reminderTime),
+                    TimeOffset = reminderTimeOffset
+                }
+            };
+            var json = JsonConvert.SerializeObject(inputModel);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"/api/calendar/events/", stringContent);
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Check updated data
+            await GetCalendarEvent_ById_ShouldReturnEventWithReminder(id, color, title, description, start, end, reminderTime, reminderTimeOffset);   
         }
     }
 }

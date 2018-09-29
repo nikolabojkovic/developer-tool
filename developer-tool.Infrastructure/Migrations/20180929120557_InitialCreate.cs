@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,8 @@ namespace Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CalendarEvents_ReminderId",
                 table: "CalendarEvents",
-                column: "ReminderId");
+                column: "ReminderId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

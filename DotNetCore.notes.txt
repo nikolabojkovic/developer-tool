@@ -88,7 +88,7 @@ dotnet test --filter GetCalendarEvents_ShouldReturnAllItems
 cd developer-tool.infrastructure
 
 // add new
-dotnet ef migrations add TestMigration --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+dotnet ef migrations add InitialCreate --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 // remove
 dotnet ef migrations remove --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 // target(revert to) specific migration

@@ -61,30 +61,24 @@ namespace WebApi.Controllers
                         item.Reminder.TimeOffset));
 
             _calendarService.Store(newItem);
-            return NoContent();
+            return Ok();
         }
 
-        // [HttpPut]
-        // [TransactionFilter]
-        // public IActionResult Put([FromBody] TestViewModel item)
-        // {
-        //     if (item == null)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPut]
+        [TransactionFilter]
+        public IActionResult Put([FromBody] CalendarEventInputModel item)
+        {
+            // Guards
+            if (item == null) return BadRequest();
+            var existingItem = _calendarService.GetById(item.Id);
+            if (existingItem == null) return BadRequest();
 
-        //     var existingItem = _testService.GetById(item.Id);
-        //     if (existingItem == null)
-        //     {
-        //         return NotFound();
-        //     }
+            // Update logic
+            _calendarService.Update(_mapper.Map<CalendarEvent>(item));
 
-        //     existingItem.Id = item.Id;
-        //     existingItem.FirstName = item.FirstName;
-
-        //     _testService.Update(existingItem);
-        //     return new NoContentResult();
-        // }
+            // Return update ok result
+            return NoContent();
+        }
 
         // [HttpDelete("{id}")]
         // [TransactionFilter]

@@ -38,7 +38,8 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReminderId");
+                    b.HasIndex("ReminderId")
+                        .IsUnique();
 
                     b.ToTable("CalendarEvents");
                 });
@@ -60,8 +61,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.Event", b =>
                 {
                     b.HasOne("Infrastructure.Models.Reminder", "Reminder")
-                        .WithMany()
-                        .HasForeignKey("ReminderId");
+                        .WithOne("Event")
+                        .HasForeignKey("Infrastructure.Models.Event", "ReminderId");
                 });
 #pragma warning restore 612, 618
         }

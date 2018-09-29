@@ -27,7 +27,7 @@ namespace TestIntegration
 
         [Theory]
         [InlineData(4)]
-        public async Task GetCalendarEventById_ShouldNoContentFound(int id)
+        public async Task GetCalendarEvent_ById_ShouldReturnNoContentFound(int id)
         {
             var response = await _client.GetAsync($"/api/calendar/events/{id}");
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -47,6 +47,36 @@ namespace TestIntegration
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);            
+        }
+
+        [Fact]
+        public async Task UpdateCalendarEvent_ShouldReturnBadReqeust()
+        {
+            var json = JsonConvert.SerializeObject(null);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            // Act
+            var response = await _client.PutAsync($"/api/calendar/events/", stringContent);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);            
+        }
+
+        [Theory]
+        [InlineData(4)]
+        public async Task UpdateCalendarEvent_ShouldReturnBadRequest(int id)
+        {
+            CalendarEventInputModel inputModel = new CalendarEventInputModel {
+                Id = id
+            };
+            var json = JsonConvert.SerializeObject(inputModel);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"/api/calendar/events", stringContent);
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest); 
         }
     }
 }

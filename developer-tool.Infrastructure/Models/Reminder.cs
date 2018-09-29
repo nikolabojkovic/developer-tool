@@ -8,5 +8,6 @@ namespace Infrastructure.Models
     {       
         public DateTime Time { get; set; }
         public ReminderTimeOffset TimeOffset { get; set; }
+        public Event Event { get; set; }
     }
 }
