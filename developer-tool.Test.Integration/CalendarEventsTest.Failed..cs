@@ -64,7 +64,7 @@ namespace TestIntegration
 
         [Theory]
         [InlineData(4)]
-        public async Task UpdateCalendarEvent_ShouldReturnBadRequest(int id)
+        public async Task UpdateCalendarEvent_ShouldReturnNotFound(int id)
         {
             CalendarEventInputModel inputModel = new CalendarEventInputModel {
                 Id = id
@@ -76,7 +76,18 @@ namespace TestIntegration
             var stringResponse = await response.Content.ReadAsStringAsync();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest); 
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound); 
+        }
+
+        [Theory]
+        [InlineData(4)]
+        public async Task DeleteCalendarEvent_ById_ShouldReturnNotFound(int id)
+        {
+            var response = await _client.DeleteAsync($"/api/calendar/events/{id}");
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound); 
         }
     }
 }

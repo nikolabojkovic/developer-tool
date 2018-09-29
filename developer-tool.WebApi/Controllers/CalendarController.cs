@@ -71,7 +71,7 @@ namespace WebApi.Controllers
             // Guards
             if (item == null) return BadRequest();
             var existingItem = _calendarService.GetById(item.Id);
-            if (existingItem == null) return BadRequest();
+            if (existingItem == null) return NotFound();
 
             // Update logic
             _calendarService.Update(_mapper.Map<CalendarEvent>(item));
@@ -80,18 +80,15 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-        // [HttpDelete("{id}")]
-        // [TransactionFilter]
-        // public IActionResult Delete(int id)
-        // {
-        //     var item = _testService.GetById(id);
-        //     if (item == null)
-        //     {
-        //         return NotFound();
-        //     }
+        [HttpDelete("{id}")]
+        [TransactionFilter]
+        public IActionResult Delete(int id)
+        {
+            var item = _calendarService.GetById(id);
+            if (item == null) return NotFound();
 
-        //     _testService.Remove(item);
-        //     return new NoContentResult();
-        // }
+            _calendarService.Remove(id);
+            return NoContent();
+        }
     }
 }

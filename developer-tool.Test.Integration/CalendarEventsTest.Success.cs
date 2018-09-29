@@ -231,5 +231,16 @@ namespace TestIntegration
             // Check updated data
             await GetCalendarEvent_ById_ShouldReturnEventWithReminder(id, color, title, description, start, end, reminderTime, reminderTimeOffset);   
         }
+
+        [Theory]
+        [InlineData(1)]
+        public async Task DeleteCalendarEvent_ById_ShouldReturnBadRequest(int id)
+        {
+            var response = await _client.DeleteAsync($"/api/calendar/events/{id}");
+            var stringResponse = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }

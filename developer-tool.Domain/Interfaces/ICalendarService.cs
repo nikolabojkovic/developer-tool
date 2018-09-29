@@ -9,6 +9,6 @@ namespace Domain.Interfaces
         CalendarEvent GetById(int id);
         void Store(CalendarEvent item);
         void Update(CalendarEvent item);
-        void Remove(CalendarEvent item);
+        void Remove(int id);
     }
 }

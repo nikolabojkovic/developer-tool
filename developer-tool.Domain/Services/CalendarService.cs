@@ -55,9 +55,10 @@ namespace Domain.Services
             _calendarEventRepository.Update(existingItem);
         }
 
-        public void Remove(CalendarEvent entity)
+        public void Remove(int id)
         {
-            _calendarEventRepository.Delete(_mapper.Map<Event>(entity));
+            var existingItem = _calendarEventRepository.Find(x => x.Id == id).FirstOrDefault();
+            _calendarEventRepository.Delete(existingItem);
         }
     }
 }

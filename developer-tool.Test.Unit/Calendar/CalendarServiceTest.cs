@@ -121,11 +121,11 @@ namespace TestUnit
             var calendarService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
 
             // Act
-            calendarService.Remove(It.IsAny<CalendarEvent>());
+            calendarService.Remove(1);
       
             // Assert
             calendarEventRepository.Verify(x => x.Delete(It.IsAny<Event>()), Times.Once);
-            mapperMock.Verify(x => x.Map<Event>(It.IsAny<CalendarEvent>()), Times.Once);
+            mapperMock.Verify(x => x.Map<Event>(It.IsAny<CalendarEvent>()), Times.Never);
         }  
     }
 }
