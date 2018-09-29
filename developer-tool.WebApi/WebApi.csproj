@@ -20,8 +20,9 @@
     <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\developer-tool.common\Common.csproj" />
     <ProjectReference Include="..\developer-tool.core\Core.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\developer-tool.Domain\Domain.csproj" />
+    <ProjectReference Include="..\developer-tool.domain\Domain.csproj" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,18 +10,25 @@ using FluentValidation.AspNetCore;
 using System;
 using System.Threading.Tasks;
 using Email.Services;
-using Infrastructure;
+using Infrastructure.DbContexts;
 using Infrastructure.Models;
+using Infrastructure.Core;
 using Core.Interfaces;
 using Domain.Interfaces;
 using Domain.Services;
 using WebApi.Validation;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using System.Reflection;
+using AutoMapper;
+
+using System.Linq;
 
 namespace WebApi
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -43,15 +51,13 @@ namespace WebApi
                                .AllowCredentials();
                     });
             });
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-            services.AddDbContext<TestContext>(opt =>
+            services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
+            services.AddDbContext<BackOfficeContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Infrastructure")));
-            services.AddTransient<ITestService, TestService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IRepository<Test>, Repository<Test>>();
             services.AddTransient<IEmailService, EmailService>();
-            
+            services.AddAutoMapper();
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
@@ -59,8 +65,10 @@ namespace WebApi
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
-        public void Configure(IApplicationBuilder app)
-        {            
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {     
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();       
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
                 await next.Invoke();
@@ -76,6 +84,26 @@ namespace WebApi
             app.UseStaticFiles();
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            Assembly[] assemblies = {
+                Assembly.Load("Infrastructure"),
+                Assembly.Load("Domain"),
+                Assembly.Load("Core"),
+                Assembly.Load("WebApi")
+            };
+
+            builder.RegisterAssemblyTypes(assemblies)
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .AsImplementedInterfaces();  
+            
+            builder.RegisterGeneric(typeof(Repository<>))
+                   .As(typeof(IRepository<>));
+
+            // builder.RegisterType<TestService>().As<ITestService>();
+            // builder.RegisterType<Repository<Test>>().As<IRepository<Test>>();
         }
     }
 

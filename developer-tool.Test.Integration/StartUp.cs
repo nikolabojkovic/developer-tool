@@ -10,12 +10,17 @@ using Microsoft.Extensions.Logging;
 using System;
 using Core;
 using Core.Interfaces;
-using Infrastructure;
+using Infrastructure.DbContexts;
 using Infrastructure.Models;
+using Infrastructure.Core;
 using Domain.Interfaces;
 using Domain.Services;
 using WebApi.Validation;
-
+using Infrastructure.Data;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using System.Reflection;
+using AutoMapper;
 
 namespace TestIntegration
 {
@@ -44,13 +49,10 @@ namespace TestIntegration
                                .AllowCredentials();
                     });
             });
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-            services.AddDbContext<TestContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-            services.AddTransient<ITestService, TestService>();
+            services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IRepository<Test>, Repository<Test>>();
-            services.AddTransient<IEmailService, EmailService>();
-            
+            services.AddTransient<IEmailService, EmailService>();            
+            services.AddAutoMapper(typeof(Startup));
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
@@ -64,6 +66,23 @@ namespace TestIntegration
             app.UseMvc();
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            Assembly[] assemblies = {
+                Assembly.Load("Infrastructure"),
+                Assembly.Load("Domain"),
+                Assembly.Load("Core"),
+                Assembly.Load("WebApi")
+            };
+
+            builder.RegisterAssemblyTypes(assemblies)
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .AsImplementedInterfaces();  
+            
+            builder.RegisterGeneric(typeof(Repository<>))
+                   .As(typeof(IRepository<>));
+        }
+
         public void ConfigureTesting(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory)
@@ -75,24 +94,8 @@ namespace TestIntegration
 
         private void PopulateTestData(IApplicationBuilder app)
         {
-            var dbContext = app.ApplicationServices.GetService<TestContext>();
-            var items = dbContext.TestItems;
-            foreach (var item in items)
-            {
-                dbContext.Remove(item);
-            }
-            dbContext.SaveChanges();
-            dbContext.TestItems.Add(new Test()
-            {
-                Id=1,
-                FirstName = "Steve Smith"
-            });
-            dbContext.TestItems.Add(new Test()
-            {
-                Id=2,
-                FirstName = "Neil Gaiman",
-            });
-            dbContext.SaveChanges();
+            var dbContext = app.ApplicationServices.GetService<BackOfficeContext>();
+            DbInitializer.SeedEvents(dbContext);
         }
     }
 

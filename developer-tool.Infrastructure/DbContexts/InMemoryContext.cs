@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Models;
 
-namespace Infrastructure
+namespace Infrastructure.DbContexts
 {
-    public class TodoContext : DbContext
+    public class InMemoryContext : DbContext
     {
-        public TodoContext(DbContextOptions<TodoContext> options)
+        public InMemoryContext(DbContextOptions<InMemoryContext> options)
             :base(options)
         {
         }

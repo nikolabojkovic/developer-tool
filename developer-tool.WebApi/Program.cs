@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure;
-using WebApi.Data;
+using Infrastructure.DbContexts;
+using Infrastructure.Data;
+using Autofac.Extensions.DependencyInjection;
 
 namespace WebApi
 {
@@ -17,13 +18,14 @@ namespace WebApi
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            var host = BuildWebHost(args);            
             SeedDatabase(host);
             host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .Build();
 
@@ -34,8 +36,9 @@ namespace WebApi
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<TestContext>();
+                    var context = services.GetRequiredService<BackOfficeContext>();
                     DbInitializer.Initialize(context);
+                    DbInitializer.SeedEvents(context);
                 }
                 catch (Exception ex)
                 {

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Autofac.Extensions.DependencyInjection;
 
 namespace TestIntegration
 {
@@ -12,6 +13,7 @@ namespace TestIntegration
         {
             var builder = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseEnvironment("Testing");
             var server = new TestServer(builder);

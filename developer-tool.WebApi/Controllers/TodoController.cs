@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure;
+using Infrastructure.DbContexts;
 using Infrastructure.Models;
 using System.Linq;
 
@@ -9,8 +9,8 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class TodoController : Controller
     {
-        private readonly TodoContext _context;
-        public TodoController(TodoContext context)
+        private readonly InMemoryContext _context;
+        public TodoController(InMemoryContext context)
         {
             _context = context;
 

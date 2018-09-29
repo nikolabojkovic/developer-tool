@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.core\Core.csproj" />
+    <ProjectReference Include="..\developer-tool.common\Common.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-namespace Infrastructure
+namespace Infrastructure.Core
 {
     public abstract class Entity
     {
