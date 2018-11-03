@@ -9,6 +9,8 @@ namespace Infrastructure.Data
 {
     public static class DbInitializer
     {
+        private const bool _activeReminder = true;
+        
         public static void Initialize(BackOfficeContext context)
         {
             context.Database.Migrate();
@@ -23,7 +25,7 @@ namespace Infrastructure.Data
 
             var items = new Event[]
             {
-                CreateEvent("#00abff", "Test title event 1", "Test description event 1", new DateTime(2018, 9, 24), new DateTime(2018, 9, 26), CreateReminder(new DateTime(2018, 9, 24, 8, 40, 0), ReminderTimeOffset.FifteenMinBefore)),
+                CreateEvent("#00abff", "Test title event 1", "Test description event 1", new DateTime(2018, 9, 24), new DateTime(2018, 9, 26), CreateReminder(new DateTime(2018, 9, 24, 8, 40, 0), _activeReminder, ReminderTimeOffset.FifteenMinBefore)),
                 CreateEvent("#00abff", "Test title event 2", "Test description event 2", new DateTime(2018, 9, 27)),
                 CreateEvent("#00abff", "Test title event 3", "Test description event 3", new DateTime(2018, 9, 25), new DateTime(2018, 9, 30))
             };
@@ -50,10 +52,11 @@ namespace Infrastructure.Data
             };
         }
 
-        public static Reminder CreateReminder(DateTime time, ReminderTimeOffset timeOffset) 
+        public static Reminder CreateReminder(DateTime time, bool active, ReminderTimeOffset timeOffset) 
         {
             return new Reminder {
                 Time = time,
+                Active = active,
                 TimeOffset = timeOffset
             };
         }

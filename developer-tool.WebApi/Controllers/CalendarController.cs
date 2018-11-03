@@ -7,6 +7,7 @@ using WebApi.Filters;
 using AutoMapper;
 using System.Collections.Generic;
 using WebApi.InputModels;
+using WebApi.Results;
 
 namespace WebApi.Controllers 
 {
@@ -28,7 +29,7 @@ namespace WebApi.Controllers
             var items = _calendarService.GetAllData();
             if (items == null) return NoContent();
             var viewModels = _mapper.Map<IEnumerable<CalendarEventViewModel>>(items);
-            return new ObjectResult(viewModels);
+            return SuccessObjectResult.Data(viewModels);
         }
 
         [HttpGet("{id}")]
@@ -37,7 +38,7 @@ namespace WebApi.Controllers
             var item = _calendarService.GetById(id);
             if (item == null) return NoContent();
 
-            return new ObjectResult(_mapper.Map<CalendarEventViewModel>(item));
+            return SuccessObjectResult.Data(_mapper.Map<CalendarEventViewModel>(item));
         }
 
         [HttpPost]
@@ -57,6 +58,7 @@ namespace WebApi.Controllers
             if (item.Reminder != null)    
                 newItem.WithReminder(
                     Reminder.Create(
+                        item.Reminder.Active,
                         item.Reminder.Time,
                         item.Reminder.TimeOffset));
 
@@ -64,9 +66,9 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [TransactionFilter]
-        public IActionResult Put([FromBody] CalendarEventInputModel item)
+        public IActionResult Put(int id, [FromBody] CalendarEventInputModel item)
         {
             // Guards
             if (item == null) return BadRequest();

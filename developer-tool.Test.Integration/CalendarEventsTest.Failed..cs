@@ -54,9 +54,10 @@ namespace TestIntegration
         {
             var json = JsonConvert.SerializeObject(null);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            var id = 1;
 
             // Act
-            var response = await _client.PutAsync($"/api/calendar/events/", stringContent);
+            var response = await _client.PutAsync($"/api/calendar/events/{id}", stringContent);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);            
@@ -72,7 +73,7 @@ namespace TestIntegration
             var json = JsonConvert.SerializeObject(inputModel);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"/api/calendar/events", stringContent);
+            var response = await _client.PutAsync($"/api/calendar/events/{id}", stringContent);
             var stringResponse = await response.Content.ReadAsStringAsync();
 
             // Assert

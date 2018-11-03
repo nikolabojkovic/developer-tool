@@ -8,6 +8,8 @@ namespace TestUnit
 {
     public class CalendarEventTest
     {
+        private const bool _activeReminder = true;
+
         [Theory]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25")]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30")]
@@ -30,13 +32,15 @@ namespace TestUnit
         }
 
         [Theory]
-        [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30", "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
+        [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30", _activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
+        [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30", !_activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
         public void CalendarEventTest_CreateEventWithReminder_ShouldReturnEvent(
             string color, 
             string title, 
             string description,
             string start,
             string end,
+            bool reminderActive,
             string reminderTime,
             ReminderTimeOffset reminderTimeOffset)
         {
@@ -44,6 +48,7 @@ namespace TestUnit
             var startDate = DateTime.Parse(start);
             var expectedEvent = CalendarEvent.Create(color, title, description, startDate, optionalEndDate)
                                              .WithReminder(Reminder.Create(
+                                                                        reminderActive,
                                                                         DateTime.Parse(reminderTime),
                                                                         reminderTimeOffset));
 
@@ -53,6 +58,7 @@ namespace TestUnit
             expectedEvent.Start.Should().Be(startDate);
             expectedEvent.End.Should().Be(optionalEndDate);
             expectedEvent.Reminder.Time.Should().Be(DateTime.Parse(reminderTime));
+            expectedEvent.Reminder.Active.Should().Be(reminderActive);
             expectedEvent.Reminder.TimeOffset.Should().Be(reminderTimeOffset);
         }
     }
