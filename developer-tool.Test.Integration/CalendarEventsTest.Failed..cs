@@ -67,9 +67,7 @@ namespace TestIntegration
         [InlineData(4)]
         public async Task UpdateCalendarEvent_ShouldReturnNotFound(int id)
         {
-            CalendarEventInputModel inputModel = new CalendarEventInputModel {
-                Id = id
-            };
+            CalendarEventInputModel inputModel = new CalendarEventInputModel { };
             var json = JsonConvert.SerializeObject(inputModel);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 

@@ -47,7 +47,7 @@ namespace WebApi.Controllers
         {
             if (item == null) return BadRequest();
 
-            // replace command pattern or builder pattern 
+            // replace with command pattern or builder pattern 
             var newItem = CalendarEvent.Create(
                 item.Color,
                 item.Title,
@@ -72,11 +72,14 @@ namespace WebApi.Controllers
         {
             // Guards
             if (item == null) return BadRequest();
-            var existingItem = _calendarService.GetById(item.Id);
+            var existingItem = _calendarService.GetById(id);
             if (existingItem == null) return NotFound();
 
+            var mappedItem = _mapper.Map<CalendarEvent>(item);
+            mappedItem.Id = id;
+
             // Update logic
-            _calendarService.Update(_mapper.Map<CalendarEvent>(item));
+            _calendarService.Update(mappedItem);
 
             // Return update ok result
             return NoContent();

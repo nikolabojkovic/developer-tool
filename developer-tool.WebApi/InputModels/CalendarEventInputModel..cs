@@ -4,7 +4,6 @@ using Common.Enums;
 namespace WebApi.InputModels 
 {
     public class CalendarEventInputModel {
-        public int Id { get; set; }
         public string Color { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
