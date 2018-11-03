@@ -5,7 +5,7 @@ namespace Domain.Models
 {
     public class CalendarEvent
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Color { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }

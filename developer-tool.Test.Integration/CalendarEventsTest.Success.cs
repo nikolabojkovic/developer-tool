@@ -175,7 +175,6 @@ namespace TestIntegration
         {
             // Arrange
             CalendarEventInputModel inputModel = new CalendarEventInputModel {
-                Id = id,
                 Color = color,
                 Title = title,
                 Description = description,
@@ -197,9 +196,9 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", null, 1, "2018/9/22 09:40:00", _activeReminder, ReminderTimeOffset.FifteenMinBefore)]
-        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", "2018-9-23", 1, "2018/9/22 09:40:00", _activeReminder, ReminderTimeOffset.ThirtyMinBefore)]
-        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", "2018-9-23", 1, "2018/9/22 09:40:00", !_activeReminder, ReminderTimeOffset.ThirtyMinBefore)]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", null, "2018/9/22 09:40:00", _activeReminder, ReminderTimeOffset.FifteenMinBefore)]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", "2018-9-23", "2018/9/22 09:40:00", _activeReminder, ReminderTimeOffset.ThirtyMinBefore)]
+        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-22", "2018-9-23", "2018/9/22 09:40:00", !_activeReminder, ReminderTimeOffset.ThirtyMinBefore)]
         public async Task UpdateCalendarEvent_WithReminder_ShouldReturnNoContentResult(
             int id, 
             string color, 
@@ -207,21 +206,18 @@ namespace TestIntegration
             string description,
             string start, 
             string end,
-            int reminderId,
             string reminderTime, 
             bool isReminderActive,
             ReminderTimeOffset reminderTimeOffset)
         {
             // Arrange
             CalendarEventInputModel inputModel = new CalendarEventInputModel {
-                Id = id,
                 Color = color,
                 Title = title,
                 Description = description,
                 Start = DateTime.Parse(start),
                 End = end == null ? default(DateTime?) : DateTime.Parse(end),
                 Reminder = new ReminderInputModel {
-                    Id = reminderId,
                     Time = DateTime.Parse(reminderTime),
                     Active = isReminderActive,
                     TimeOffset = reminderTimeOffset

@@ -3,22 +3,26 @@ using System.Linq;
 using Core.Interfaces;
 using Infrastructure;
 using Infrastructure.Models;
+using WebApi.InputModels;
+
 namespace WebApi.ViewModels {
-    public class CreateCustomerValidator : AbstractValidator<CalendarEventViewModel>
+    public class CalendarEventValidator : AbstractValidator<CalendarEventInputModel>
     {
-        public CreateCustomerValidator(IRepository<Event> testRepository)
+        public CalendarEventValidator(IRepository<Event> testRepository)
         {
-            RuleFor(m => m.Title)
-                .Must((rootObject, property, context) => {
-                    if (rootObject.Id != 0 && testRepository.FindAll().Any(o => o.Title == property && o.Id != rootObject.Id))
-                        return false;
+            RuleFor(m => m.Title).NotEmpty();
+            RuleFor(m => m.Title).MaximumLength(50);
+            // RuleFor(m => m.Title)
+            //     .Must((rootObject, property, context) => {
+            //         if (rootObject.Id != 0 && testRepository.FindAll().Any(o => o.Title == property && o.Id != rootObject.Id))
+            //             return false;
 
-                    if (rootObject.Id == 0 && testRepository.FindAll().Any(o => o.Title == property))
-                        return false;
+            //         if (rootObject.Id == 0 && testRepository.FindAll().Any(o => o.Title == property))
+            //             return false;
 
-                    return true;
-                })
-                .WithMessage("Record already exists");
+            //         return true;
+            //     })
+            //     .WithMessage("Record already exists");
         }
     }
 }
