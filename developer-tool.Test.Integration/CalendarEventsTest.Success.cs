@@ -129,14 +129,15 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData("#00abff", "Test post title event 1", "Test post description event 1", "2018-9-21", "2018-9-23", "2018/9/21 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
+        [InlineData("#00abff", "Test post title event 1", "Test post description event 1", "2018-9-21", "2018-9-23", "2018/9/21 08:40:00", _activeReminder, ReminderTimeOffset.FifteenMinBefore)]
         public async Task PostCalendarEvent_WithReminder_ShouldReturnNoContentResult(
             string color, 
             string title, 
             string description,
             string start, 
             string end,
-            string reminderTime, 
+            string reminderTime,
+            bool isReminderActive, 
             ReminderTimeOffset reminderTimeOffset)
         {
             // Arrange
@@ -148,6 +149,7 @@ namespace TestIntegration
                 End = end == null ? default(DateTime) : DateTime.Parse(end),
                 Reminder = new ReminderInputModel {
                     Time = DateTime.Parse(reminderTime),
+                    Active = isReminderActive,
                     TimeOffset = reminderTimeOffset
                 }
             };

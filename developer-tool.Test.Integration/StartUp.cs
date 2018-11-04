@@ -52,12 +52,12 @@ namespace TestIntegration
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailService, EmailService>();            
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(WebApi.Startup));
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
-                fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+                fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
         }
 
         public void Configure(IApplicationBuilder app)
