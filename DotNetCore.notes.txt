@@ -101,3 +101,6 @@ dotnet ef database update --context BackOfficeContext --startup-project /Users/m
 dotnet ef migrations list --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
 
 ///////// end migration commands /////
+
+/// fluent validation ///
+https://fluentvalidation.net/custom-validators

@@ -64,10 +64,23 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData(4)]
-        public async Task UpdateCalendarEvent_ShouldReturnNotFound(int id)
+        [InlineData(4, "#00abff", "Test title event 2", "Test description event 2", "2018-9-27")]
+        public async Task UpdateCalendarEvent_ShouldReturnNotFound(
+            int id,
+            string color, 
+            string title, 
+            string description,
+            string start, 
+            string end = null
+        )
         {
-            CalendarEventInputModel inputModel = new CalendarEventInputModel { };
+            CalendarEventInputModel inputModel = new CalendarEventInputModel {
+                Color = color,
+                Title = title,
+                Description = description,
+                Start = DateTime.Parse(start),
+                End = end == null ? default(DateTime) : DateTime.Parse(end)
+            };
             var json = JsonConvert.SerializeObject(inputModel);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
