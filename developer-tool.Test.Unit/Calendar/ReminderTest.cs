@@ -20,6 +20,7 @@ namespace TestUnit
         {
             var expectedResult = Reminder.Create(active, DateTime.Parse(time), timeOffset);
 
+            expectedResult.Active.Should().Be(active);
             expectedResult.Time.Should().Be(DateTime.Parse(time));
             expectedResult.TimeOffset.Should().Be(timeOffset);
         }
