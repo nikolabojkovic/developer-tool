@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.common\Common.csproj" />

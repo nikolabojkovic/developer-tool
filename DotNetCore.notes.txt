@@ -15,30 +15,6 @@ dotnet ef database drop --context TestContext
 dotnet ef migrations add InitialCreate --context TestContext
 dotnet ef database update
 
-
-////////////////////////////////// asp.net hosting trail
-username: nikolabojkovic
-pass: gaim5867
-
-hosting dashboard link: http://member3.myasp.net/account/account_screen
-login id : nikolabojkovic-001
-site name: dotnetcorewebapi
-FTP Address ：	FTP-EU.SITE4NOW.NET
-FTP Username ：	nikolabojkovic-001
-
-FTP Login 
-Ftp address: ftp-eu.myasp.net 
-Ftp username: nikolabojkovic-001 
-
-http://nikolabojkovic-001-site1.ctempurl.com 
-
-db:
-db_a355da_test
-MYSQL: mysql6001.site4now.net
-Username: a355da_test
-
-///////////////////////////////////
-
 set environment:
 
 when runing app
@@ -53,6 +29,7 @@ dotnet add package EntityFramework
 // add project reference 
 dotnet add Test.Integration/Test.Integration.csproj reference WebApi.csproj
 
+////////// test commands ///////////////
 // run Test
 navigate to test folder and run:
 dotnet test
@@ -104,3 +81,8 @@ dotnet ef migrations list --context BackOfficeContext --startup-project /Users/m
 
 /// fluent validation ///
 https://fluentvalidation.net/custom-validators
+
+// during web api deploy: stop website
+                          deploy
+                          copy web.config from DevelopmentSecrets folder
+                          start website

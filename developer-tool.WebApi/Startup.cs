@@ -101,9 +101,6 @@ namespace WebApi
             
             builder.RegisterGeneric(typeof(Repository<>))
                    .As(typeof(IRepository<>));
-
-            // builder.RegisterType<TestService>().As<ITestService>();
-            // builder.RegisterType<Repository<Test>>().As<IRepository<Test>>();
         }
     }
 
