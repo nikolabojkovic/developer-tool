@@ -10,6 +10,6 @@ namespace Infrastructure.DbContexts
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<TodoModel> TodoItems { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace Domain.Services
 {
     public class CalendarService : ICalendarService
     {
-        private readonly IRepository<Event> _calendarEventRepository;
+        private readonly IRepository<EventModel> _calendarEventRepository;
         private readonly IMapper _mapper;
 
         public CalendarService(
-            IRepository<Event> calendarEventRepository,
+            IRepository<EventModel> calendarEventRepository,
             IMapper mapper)
         {
             _calendarEventRepository = calendarEventRepository;
@@ -42,7 +42,7 @@ namespace Domain.Services
 
         public void Store(CalendarEvent item)
         {
-            var repoModel = _mapper.Map<Event>(item);
+            var repoModel = _mapper.Map<EventModel>(item);
             _calendarEventRepository.Add(repoModel);
         }
 
@@ -51,13 +51,14 @@ namespace Domain.Services
             var existingItem = _calendarEventRepository.Find(x => x.Id == entity.Id)
                                                        .Include(x => x.Reminder)
                                                        .FirstOrDefault();            
-            existingItem = _mapper.Map<CalendarEvent, Event>(entity, existingItem);
+            existingItem = _mapper.Map<CalendarEvent, EventModel>(entity, existingItem);
             _calendarEventRepository.Update(existingItem);
         }
 
         public void Remove(int id)
         {
-            var existingItem = _calendarEventRepository.Find(x => x.Id == id).FirstOrDefault();
+            var existingItem = _calendarEventRepository.Find(x => x.Id == id)
+                                                       .FirstOrDefault();
             _calendarEventRepository.Delete(existingItem);
         }
     }

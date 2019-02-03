@@ -18,31 +18,40 @@ namespace Infrastructure.Data
         }
 
         public static void SeedEvents(BackOfficeContext context) {
-            if (context.CalendarEvents.Any())
+            if (context.Set<EventModel>().Any())
             {
                 return; // Db has been seeded;
             }
 
-            var items = new Event[]
+            var calendarEvents = new EventModel[]
             {
                 CreateEvent("#00abff", "Test title event 1", "Test description event 1", new DateTime(2018, 9, 24), new DateTime(2018, 9, 26), CreateReminder(new DateTime(2018, 9, 24, 8, 40, 0), _activeReminder, ReminderTimeOffset.FifteenMinBefore)),
                 CreateEvent("#00abff", "Test title event 2", "Test description event 2", new DateTime(2018, 9, 27)),
                 CreateEvent("#00abff", "Test title event 3", "Test description event 3", new DateTime(2018, 9, 25), new DateTime(2018, 9, 30))
             };
 
-            context.CalendarEvents.AddRange(items);
+            var todos = new TodoModel[]
+            {
+                CreateTodo("Test todo create", false, false),
+                CreateTodo("Test todo completed", true, false),
+                CreateTodo("Test todo uncompleted", false, false),
+                CreateTodo("Test todo archived", true, true),
+            };
+
+            context.Set<EventModel>().AddRange(calendarEvents);
+            context.Set<TodoModel>().AddRange(todos);
             context.SaveChanges();
         }
 
-        public static Event CreateEvent(
+        public static EventModel CreateEvent(
             string color,
             string title,
             string description,
             DateTime start,
             DateTime? end = null,
-            Reminder reminder = null)
+            ReminderModel reminder = null)
         {
-            return new Event {
+            return new EventModel {
                 Color = color,
                 Title = title,
                 Description = description,
@@ -52,12 +61,21 @@ namespace Infrastructure.Data
             };
         }
 
-        public static Reminder CreateReminder(DateTime time, bool active, ReminderTimeOffset timeOffset) 
+        public static ReminderModel CreateReminder(DateTime time, bool active, ReminderTimeOffset timeOffset) 
         {
-            return new Reminder {
+            return new ReminderModel {
                 Time = time,
                 Active = active,
                 TimeOffset = timeOffset
+            };
+        }
+
+        public static TodoModel CreateTodo(string description, bool isCompleted, bool isArchived)
+        {
+            return new TodoModel {
+                Description = description,
+                IsCompleted = isCompleted,
+                IsArchived = isArchived
             };
         }
     }

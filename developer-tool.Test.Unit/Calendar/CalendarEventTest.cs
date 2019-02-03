@@ -13,7 +13,7 @@ namespace TestUnit
         [Theory]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25")]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30")]
-        public void CalendarEventTest_CreateEvent_ShouldReturnEvent(
+        public void TestCalendarEvent_Create_ShouldReturnNewEvent(
             string color, 
             string title, 
             string description,
@@ -34,7 +34,7 @@ namespace TestUnit
         [Theory]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30", _activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
         [InlineData("#00abff", "Test title event 1", "Test description event 1", "2018-9-25", "2018-9-30", !_activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
-        public void CalendarEventTest_CreateEventWithReminder_ShouldReturnEvent(
+        public void TestCalendarEvent_CreateWithReminder_ShouldReturnNewEventWithReminder(
             string color, 
             string title, 
             string description,
