@@ -13,7 +13,7 @@ namespace TestUnit
         [Theory]
         [InlineData(_activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
         [InlineData(!_activeReminder, "2018/9/24 08:40:00", ReminderTimeOffset.FifteenMinBefore)]
-        public void CalendarEventReminderTest_CreateReminder_ShouldReturnReminder(
+        public void TestCalendarEventReminder_Create_ShouldReturnReminder(
             bool active,
             string time,
             ReminderTimeOffset timeOffset)

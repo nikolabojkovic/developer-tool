@@ -11,8 +11,8 @@ public class ReminderProfile : Profile
 		CreateMap<Domain.Models.Reminder, ReminderViewModel>();
 		CreateMap<ReminderInputModel, Domain.Models.Reminder>()
 			.ForMember(x => x.Id, opt => opt.Ignore());
-		CreateMap<Domain.Models.Reminder, Infrastructure.Models.Reminder>()
+		CreateMap<Domain.Models.Reminder, Infrastructure.Models.ReminderModel>()
 			.ForMember(x => x.Id, opt => opt.Ignore());
-		CreateMap<Infrastructure.Models.Reminder, Domain.Models.Reminder>();
+		CreateMap<Infrastructure.Models.ReminderModel, Domain.Models.Reminder>();
 	}
 }

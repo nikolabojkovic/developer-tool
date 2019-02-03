@@ -73,6 +73,7 @@ namespace TestIntegration
         }
 
         [Theory]
+        [InlineData(1, "#00abff", "Test title event 1", "Test description event 1", "2018-9-24", "2018-9-26")]
         [InlineData(2, "#00abff", "Test title event 2", "Test description event 2", "2018-9-27")]
         [InlineData(3, "#00abff", "Test title event 3", "Test description event 3", "2018-9-25", "2018-9-30")]
         public async Task GetCalendarEvent_ById_ShouldReturnEvent(
@@ -165,8 +166,8 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData(1, "#00abff", "Test update title event 1.1", "Test update description event 1.1", "2018-9-21", "2018-9-24")]
         [InlineData(2, "#00abff", "Test update title event 2.2", "Test update description event 2.2", "2018-9-22")]
+        [InlineData(3, "#00abff", "Test update title event 3.3", "Test update description event 3.3", "2018-9-25", "2018-10-1")]
         public async Task UpateCalendarEvent_ShouldReturnNoContentResult(
             int id,
             string color, 

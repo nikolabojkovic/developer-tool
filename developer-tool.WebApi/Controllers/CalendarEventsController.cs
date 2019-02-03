@@ -17,9 +17,9 @@ namespace WebApi.Controllers
         private readonly ICalendarService _calendarService;
         private readonly IMapper _mapper;
 
-        public CalendarEventsController(ICalendarService testService, IMapper mapper)
+        public CalendarEventsController(ICalendarService calendarService, IMapper mapper)
         {
-            _calendarService = testService;
+            _calendarService = calendarService;
             _mapper = mapper;
         }
 

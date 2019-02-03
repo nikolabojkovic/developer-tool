@@ -84,5 +84,7 @@ https://fluentvalidation.net/custom-validators
 
 // during web api deploy: stop website
                           deploy
-                          copy web.config from DevelopmentSecrets folder
                           start website
+
+// web.config contains ENVIRONMENT_VARIABLE value to reference correct appSetting.{evn}.json file
+appSetting.{evn}.json have to be uploaded manually (security reasons)
