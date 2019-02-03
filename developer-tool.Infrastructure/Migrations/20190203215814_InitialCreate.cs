@@ -9,17 +9,35 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Reminder",
+                name: "Todos",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
+                    Description = table.Column<string>(nullable: false),
+                    IsArchived = table.Column<bool>(nullable: false),
+                    IsCompleted = table.Column<bool>(nullable: false),
+                    UserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Todos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reminders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Active = table.Column<bool>(nullable: false),
+                    EventId = table.Column<int>(nullable: true),
                     Time = table.Column<DateTime>(nullable: false),
                     TimeOffset = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reminder", x => x.Id);
+                    table.PrimaryKey("PK_Reminders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,17 +51,17 @@ namespace Infrastructure.Migrations
                     End = table.Column<DateTime>(nullable: true),
                     ReminderId = table.Column<int>(nullable: true),
                     Start = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CalendarEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CalendarEvents_Reminder_ReminderId",
+                        name: "FK_CalendarEvents_Reminders_ReminderId",
                         column: x => x.ReminderId,
-                        principalTable: "Reminder",
+                        principalTable: "Reminders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -51,15 +69,35 @@ namespace Infrastructure.Migrations
                 table: "CalendarEvents",
                 column: "ReminderId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reminders_EventId",
+                table: "Reminders",
+                column: "EventId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reminders_CalendarEvents_EventId",
+                table: "Reminders",
+                column: "EventId",
+                principalTable: "CalendarEvents",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CalendarEvents");
+            migrationBuilder.DropForeignKey(
+                name: "FK_CalendarEvents_Reminders_ReminderId",
+                table: "CalendarEvents");
 
             migrationBuilder.DropTable(
-                name: "Reminder");
+                name: "Todos");
+
+            migrationBuilder.DropTable(
+                name: "Reminders");
+
+            migrationBuilder.DropTable(
+                name: "CalendarEvents");
         }
     }
 }

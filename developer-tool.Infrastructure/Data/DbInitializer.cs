@@ -18,12 +18,12 @@ namespace Infrastructure.Data
         }
 
         public static void SeedEvents(BackOfficeContext context) {
-            if (context.Set<EventModel>().Any())
+            if (context.Set<CalendarEventModel>().Any())
             {
                 return; // Db has been seeded;
             }
 
-            var calendarEvents = new EventModel[]
+            var calendarEvents = new CalendarEventModel[]
             {
                 CreateEvent("#00abff", "Test title event 1", "Test description event 1", new DateTime(2018, 9, 24), new DateTime(2018, 9, 26), CreateReminder(new DateTime(2018, 9, 24, 8, 40, 0), _activeReminder, ReminderTimeOffset.FifteenMinBefore)),
                 CreateEvent("#00abff", "Test title event 2", "Test description event 2", new DateTime(2018, 9, 27)),
@@ -38,12 +38,12 @@ namespace Infrastructure.Data
                 CreateTodo("Test todo archived", true, true),
             };
 
-            context.Set<EventModel>().AddRange(calendarEvents);
+            context.Set<CalendarEventModel>().AddRange(calendarEvents);
             context.Set<TodoModel>().AddRange(todos);
             context.SaveChanges();
         }
 
-        public static EventModel CreateEvent(
+        public static CalendarEventModel CreateEvent(
             string color,
             string title,
             string description,
@@ -51,7 +51,7 @@ namespace Infrastructure.Data
             DateTime? end = null,
             ReminderModel reminder = null)
         {
-            return new EventModel {
+            return new CalendarEventModel {
                 Color = color,
                 Title = title,
                 Description = description,

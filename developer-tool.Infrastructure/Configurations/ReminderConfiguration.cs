@@ -9,7 +9,7 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<ReminderModel> builder)
         {
-            builder.ToTable("Reminder");
+            builder.ToTable("Reminders");
             builder.HasKey(x => x.Id);
         }
     }

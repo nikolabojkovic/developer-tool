@@ -4,7 +4,7 @@ using Infrastructure.Core;
 
 namespace Infrastructure.Models 
 {
-    public class EventModel : Entity
+    public class CalendarEventModel : Entity
     {
         public string Color { get; set; }
         public string Title { get; set; }

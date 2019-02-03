@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations
 {
-    public class EventConfiguration : IEntityTypeConfiguration<EventModel>
+    public class EventConfiguration : IEntityTypeConfiguration<CalendarEventModel>
     {
-        public void Configure(EntityTypeBuilder<EventModel> builder)
+        public void Configure(EntityTypeBuilder<CalendarEventModel> builder)
         {
             builder.ToTable("CalendarEvents");
             builder.HasKey(x => x.Id);

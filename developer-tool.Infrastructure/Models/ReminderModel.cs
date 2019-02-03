@@ -9,6 +9,6 @@ namespace Infrastructure.Models
         public bool Active { get; set; }
         public DateTime Time { get; set; }
         public ReminderTimeOffset TimeOffset { get; set; }
-        public EventModel Event { get; set; }
+        public CalendarEventModel Event { get; set; }
     }
 }

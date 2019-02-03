@@ -11,8 +11,8 @@ public class CalendaEventProfile : Profile
 		CreateMap<CalendarEvent, CalendarEventViewModel>();
 		CreateMap<CalendarEventInputModel, CalendarEvent>()
 			.ForMember(x => x.Id, opt => opt.Ignore());
-		CreateMap<EventModel, CalendarEvent>();
-		CreateMap<CalendarEvent, EventModel>()
+		CreateMap<CalendarEventModel, CalendarEvent>();
+		CreateMap<CalendarEvent, CalendarEventModel>()
 			.ForMember(x => x.Id, opt => opt.Ignore());;
 	}
 }

@@ -20,12 +20,12 @@ namespace TestUnit
         public void TestCalendarService_GetAll_ShouldCallFindAllRepositoryAndAutoMapper()
         {
             // Arrange
-            var expectedRepositoryEvents = new EventModel[] { };
-            Mock<IRepository<EventModel>> calendarEventRepository = new Mock<IRepository<EventModel>>();
+            var expectedRepositoryEvents = new CalendarEventModel[] { };
+            Mock<IRepository<CalendarEventModel>> calendarEventRepository = new Mock<IRepository<CalendarEventModel>>();
                                      calendarEventRepository.Setup(x => x.FindAll())
                                                             .Returns(expectedRepositoryEvents.AsQueryable());
             var mapperMock = new Mock<IMapper>();
-                mapperMock.Setup(m => m.Map<IEnumerable<CalendarEvent>>(It.IsAny<IEnumerable<EventModel>>()))
+                mapperMock.Setup(m => m.Map<IEnumerable<CalendarEvent>>(It.IsAny<IEnumerable<CalendarEventModel>>()))
                           .Returns(It.IsAny<IEnumerable<CalendarEvent>>());
 
             var testService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
@@ -35,21 +35,21 @@ namespace TestUnit
 
             // Assert
             calendarEventRepository.Verify(x => x.FindAll(), Times.Once);
-            mapperMock.Verify(x => x.Map<IEnumerable<CalendarEvent>>(It.IsAny<IEnumerable<EventModel>>()), Times.Once);
+            mapperMock.Verify(x => x.Map<IEnumerable<CalendarEvent>>(It.IsAny<IEnumerable<CalendarEventModel>>()), Times.Once);
         }
 
         [Fact]
         public void TestCalendarService_GetById_ShouldCallFindRepositoryAndAutoMapper()
         {
             // Arrange
-            var expectedRepositoryEvents = new EventModel[] { };
+            var expectedRepositoryEvents = new CalendarEventModel[] { };
             // mock repository
-            Mock<IRepository<EventModel>> calendarEventRepository = new Mock<IRepository<EventModel>>();
-            calendarEventRepository.Setup(repo => repo.Find(It.IsAny<Expression<Func<EventModel, bool>>>()))
+            Mock<IRepository<CalendarEventModel>> calendarEventRepository = new Mock<IRepository<CalendarEventModel>>();
+            calendarEventRepository.Setup(repo => repo.Find(It.IsAny<Expression<Func<CalendarEventModel, bool>>>()))
                                    .Returns(expectedRepositoryEvents.AsQueryable());
             // mock automapper            
             var mapperMock = new Mock<IMapper>();
-                mapperMock.Setup(m => m.Map<CalendarEvent>(It.IsAny<EventModel>()))
+                mapperMock.Setup(m => m.Map<CalendarEvent>(It.IsAny<CalendarEventModel>()))
                           .Returns(It.IsAny<CalendarEvent>());
 
             var calendarService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
@@ -58,8 +58,8 @@ namespace TestUnit
             var result = calendarService.GetById(1);
       
             // Assert
-            calendarEventRepository.Verify(x => x.Find(It.IsAny<Expression<Func<EventModel, bool>>>()), Times.Once);
-            mapperMock.Verify(x => x.Map<CalendarEvent>(It.IsAny<EventModel>()), Times.Once);
+            calendarEventRepository.Verify(x => x.Find(It.IsAny<Expression<Func<CalendarEventModel, bool>>>()), Times.Once);
+            mapperMock.Verify(x => x.Map<CalendarEvent>(It.IsAny<CalendarEventModel>()), Times.Once);
         }
     
         [Fact]
@@ -67,12 +67,12 @@ namespace TestUnit
         {
             // Arrange
             // mock repository
-            Mock<IRepository<EventModel>> calendarEventRepository = new Mock<IRepository<EventModel>>();
-            calendarEventRepository.Setup(repo => repo.Add(It.IsAny<EventModel>()));
+            Mock<IRepository<CalendarEventModel>> calendarEventRepository = new Mock<IRepository<CalendarEventModel>>();
+            calendarEventRepository.Setup(repo => repo.Add(It.IsAny<CalendarEventModel>()));
             // mock automapper
             var mapperMock = new Mock<IMapper>();
-                mapperMock.Setup(m => m.Map<EventModel>(It.IsAny<CalendarEvent>()))
-                          .Returns(It.IsAny<EventModel>());
+                mapperMock.Setup(m => m.Map<CalendarEventModel>(It.IsAny<CalendarEvent>()))
+                          .Returns(It.IsAny<CalendarEventModel>());
 
             var calendarService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
 
@@ -80,8 +80,8 @@ namespace TestUnit
             calendarService.Store(It.IsAny<CalendarEvent>());
       
             // Assert
-            calendarEventRepository.Verify(x => x.Add(It.IsAny<EventModel>()), Times.Once);
-            mapperMock.Verify(x => x.Map<EventModel>(It.IsAny<CalendarEvent>()), Times.Once);
+            calendarEventRepository.Verify(x => x.Add(It.IsAny<CalendarEventModel>()), Times.Once);
+            mapperMock.Verify(x => x.Map<CalendarEventModel>(It.IsAny<CalendarEvent>()), Times.Once);
         }
 
         [Fact]  
@@ -89,12 +89,12 @@ namespace TestUnit
         {
             // Arrange
             // mock repository
-            Mock<IRepository<EventModel>> calendarEventRepository = new Mock<IRepository<EventModel>>();
-            calendarEventRepository.Setup(repo => repo.Update(It.IsAny<EventModel>()));
+            Mock<IRepository<CalendarEventModel>> calendarEventRepository = new Mock<IRepository<CalendarEventModel>>();
+            calendarEventRepository.Setup(repo => repo.Update(It.IsAny<CalendarEventModel>()));
             // mock automapper
             var mapperMock = new Mock<IMapper>();
-                mapperMock.Setup(m => m.Map<CalendarEvent, EventModel>(It.IsAny<CalendarEvent>(),It.IsAny<EventModel>()))
-                          .Returns(It.IsAny<EventModel>());
+                mapperMock.Setup(m => m.Map<CalendarEvent, CalendarEventModel>(It.IsAny<CalendarEvent>(),It.IsAny<CalendarEventModel>()))
+                          .Returns(It.IsAny<CalendarEventModel>());
 
             var calendarService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
 
@@ -102,8 +102,8 @@ namespace TestUnit
             calendarService.Update(It.IsAny<CalendarEvent>());
       
             // Assert
-            calendarEventRepository.Verify(x => x.Update(It.IsAny<EventModel>()), Times.Once);
-            mapperMock.Verify(x => x.Map<CalendarEvent, EventModel>(It.IsAny<CalendarEvent>(), It.IsAny<EventModel>()), Times.Once);
+            calendarEventRepository.Verify(x => x.Update(It.IsAny<CalendarEventModel>()), Times.Once);
+            mapperMock.Verify(x => x.Map<CalendarEvent, CalendarEventModel>(It.IsAny<CalendarEvent>(), It.IsAny<CalendarEventModel>()), Times.Once);
         }    
 
         [Fact]  
@@ -111,12 +111,12 @@ namespace TestUnit
         {
             // Arrange
             // mock repository
-            Mock<IRepository<EventModel>> calendarEventRepository = new Mock<IRepository<EventModel>>();
-            calendarEventRepository.Setup(repo => repo.Delete(It.IsAny<EventModel>()));
+            Mock<IRepository<CalendarEventModel>> calendarEventRepository = new Mock<IRepository<CalendarEventModel>>();
+            calendarEventRepository.Setup(repo => repo.Delete(It.IsAny<CalendarEventModel>()));
             // mock automapper
             var mapperMock = new Mock<IMapper>();
-                mapperMock.Setup(m => m.Map<EventModel>(It.IsAny<CalendarEvent>()))
-                          .Returns(It.IsAny<EventModel>());
+                mapperMock.Setup(m => m.Map<CalendarEventModel>(It.IsAny<CalendarEvent>()))
+                          .Returns(It.IsAny<CalendarEventModel>());
 
             var calendarService = new CalendarService(calendarEventRepository.Object, mapperMock.Object);
 
@@ -124,8 +124,8 @@ namespace TestUnit
             calendarService.Remove(1);
       
             // Assert
-            calendarEventRepository.Verify(x => x.Delete(It.IsAny<EventModel>()), Times.Once);
-            mapperMock.Verify(x => x.Map<EventModel>(It.IsAny<CalendarEvent>()), Times.Never);
+            calendarEventRepository.Verify(x => x.Delete(It.IsAny<CalendarEventModel>()), Times.Once);
+            mapperMock.Verify(x => x.Map<CalendarEventModel>(It.IsAny<CalendarEvent>()), Times.Never);
         }  
     }
 }
