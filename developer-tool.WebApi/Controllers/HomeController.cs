@@ -10,7 +10,9 @@ namespace WebApi.Controllers
     [Route("/")]
     public class HomeController : Controller
     {
+        [ApiExplorerSettings(IgnoreApi=true)]
         [Produces("text/html")]
+        [HttpGet]
         public IActionResult Index() {
             // var path = "static-files/default-home-page.html";
             // var response = new HttpResponseMessage();

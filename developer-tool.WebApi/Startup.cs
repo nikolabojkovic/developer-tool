@@ -21,6 +21,7 @@ using AutoMapper;
 using System.Linq;
 using MediatR;
 using WebApi.Middlewares;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi
 {
@@ -57,6 +58,10 @@ namespace WebApi
             services.AddTransient<IEmailService, EmailService>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddAutoMapper();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Developer-tool API", Version = "v1" });
+            });
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
@@ -79,9 +84,15 @@ namespace WebApi
                 }
             });
 
+            app.UseSwagger();            
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Developer-tool API V1");
+                c.RoutePrefix = "api";
+            });
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
