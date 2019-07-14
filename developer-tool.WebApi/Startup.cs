@@ -11,19 +11,16 @@ using System;
 using System.Threading.Tasks;
 using Email.Services;
 using Infrastructure.DbContexts;
-using Infrastructure.Models;
 using Infrastructure.Core;
 using Core.Interfaces;
-using Domain.Interfaces;
-using Domain.Services;
 using WebApi.Validation;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
 
 using System.Linq;
 using MediatR;
+using WebApi.Middlewares;
 
 namespace WebApi
 {
@@ -82,6 +79,7 @@ namespace WebApi
                 }
             });
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCors("AllowAllOrigins");
