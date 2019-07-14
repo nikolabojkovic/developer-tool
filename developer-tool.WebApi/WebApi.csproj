@@ -25,5 +25,6 @@
     <ProjectReference Include="..\developer-tool.core\Core.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\developer-tool.domain\Domain.csproj" />
+    <ProjectReference Include="..\developer-tool.application\Application.csproj" />
   </ItemGroup>
 </Project>

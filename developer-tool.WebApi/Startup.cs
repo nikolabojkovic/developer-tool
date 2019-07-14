@@ -23,6 +23,7 @@ using System.Reflection;
 using AutoMapper;
 
 using System.Linq;
+using MediatR;
 
 namespace WebApi
 {
@@ -57,6 +58,7 @@ namespace WebApi
                                   x => x.MigrationsAssembly("Infrastructure")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddAutoMapper();
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
