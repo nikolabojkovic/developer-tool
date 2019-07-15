@@ -1,26 +1,20 @@
 using Email.Services;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using Core;
 using Core.Interfaces;
-using Infrastructure.DbContexts;
-using Infrastructure.Models;
-using Infrastructure.Core;
-using Domain.Interfaces;
-using Domain.Services;
-using WebApi.Validation;
-using Infrastructure.Data;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
+using Infrastructure.DbContexts;
+using Infrastructure.Core;
+using WebApi.Validation;
+using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
+using Infrastructure.Data;
 
 namespace TestIntegration
 {
@@ -70,9 +64,9 @@ namespace TestIntegration
         {
             Assembly[] assemblies = {
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Domain"),
+                Assembly.Load("Application"),
                 Assembly.Load("Core"),
-                Assembly.Load("WebApi")
+                Assembly.Load("Persistence")
             };
 
             builder.RegisterAssemblyTypes(assemblies)

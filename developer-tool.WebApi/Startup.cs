@@ -17,7 +17,6 @@ using WebApi.Validation;
 using Autofac;
 using System.Reflection;
 using AutoMapper;
-
 using System.Linq;
 using MediatR;
 using WebApi.Middlewares;
@@ -53,10 +52,11 @@ namespace WebApi
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
             services.AddDbContext<BackOfficeContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
-                                  x => x.MigrationsAssembly("Infrastructure")));
+                                  x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
+            services.AddDistributedMemoryCache();
             services.AddAutoMapper();
             services.AddSwaggerGen(c =>
             {
@@ -100,10 +100,10 @@ namespace WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Assembly[] assemblies = {
+                Assembly.Load("Persistence"),
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Domain"),
-                Assembly.Load("Core"),
-                Assembly.Load("WebApi")
+                Assembly.Load("Application"),
+                Assembly.Load("Core")
             };
 
             builder.RegisterAssemblyTypes(assemblies)

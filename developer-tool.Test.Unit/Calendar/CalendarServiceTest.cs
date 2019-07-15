@@ -5,12 +5,10 @@ using System.Linq.Expressions;
 using Xunit;
 using Moq;
 using Core.Interfaces;
-using Domain.Services;
 using Domain.Models;
-using Infrastructure.Models;
-using Common.Enums;
-using Infrastructure.Data;
 using AutoMapper;
+using Domain.PersistenceModels;
+using Application.Services;
 
 namespace TestUnit
 {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Models;
+using Domain.PersistenceModels;
 
 namespace Infrastructure.DbContexts
 {

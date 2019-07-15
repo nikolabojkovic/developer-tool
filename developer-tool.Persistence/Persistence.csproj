@@ -4,12 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.application\Application.csproj" />
   </ItemGroup>
-
 </Project>

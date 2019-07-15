@@ -1,16 +1,14 @@
 using Xunit;
 using Moq;
 using Domain.Models;
-using Infrastructure.Data;
-using Infrastructure.Models;
 using Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Services;
-using FluentAssertions;
+using Domain.PersistenceModels;
+using Application.Services;
 
 namespace TestUnit.TodoTests.Services 
 {

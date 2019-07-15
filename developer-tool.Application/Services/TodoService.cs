@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Core.Interfaces;
-using Domain.Interfaces;
+using Application.Interfaces;
 using Domain.Models;
-using Infrastructure.Models;
+using Domain.PersistenceModels;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class TodoService : ITodoService
     {

@@ -1,4 +1,4 @@
-namespace Infrastructure.Models
+namespace Domain.PersistenceModels
 {
     public class Cv {
         public string Name { get; set; }

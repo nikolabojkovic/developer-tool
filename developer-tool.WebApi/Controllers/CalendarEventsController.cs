@@ -1,7 +1,6 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
-using Domain.Interfaces;
+using Application.Interfaces;
 using WebApi.ViewModels;
 using WebApi.Filters;
 using AutoMapper;

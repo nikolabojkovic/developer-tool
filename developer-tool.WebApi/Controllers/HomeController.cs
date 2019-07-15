@@ -1,10 +1,4 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure.Models;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-
 namespace WebApi.Controllers
 {
     [Route("/")]

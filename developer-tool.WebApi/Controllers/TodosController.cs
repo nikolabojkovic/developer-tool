@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure.DbContexts;
-using Infrastructure.Models;
-using System.Linq;
 using WebApi.ViewModels;
 using AutoMapper;
-using Domain.Interfaces;
+using Application.Interfaces;
 using WebApi.Results;
 using WebApi.InputModels;
 using Domain.Models;

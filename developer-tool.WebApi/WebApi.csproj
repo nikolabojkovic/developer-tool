@@ -23,10 +23,7 @@
     <None Include="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\developer-tool.common\Common.csproj" />
-    <ProjectReference Include="..\developer-tool.core\Core.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\developer-tool.domain\Domain.csproj" />
-    <ProjectReference Include="..\developer-tool.application\Application.csproj" />
+    <ProjectReference Include="..\developer-tool.persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

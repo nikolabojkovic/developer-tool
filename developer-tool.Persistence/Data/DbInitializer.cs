@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.DbContexts;
-using Infrastructure.Models;
+using Domain.PersistenceModels;
 using Common.Enums;
 
 namespace Infrastructure.Data

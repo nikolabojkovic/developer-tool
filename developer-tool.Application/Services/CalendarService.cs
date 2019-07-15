@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Interfaces;
-using Domain.Interfaces;
-using Infrastructure.Models;
+using Application.Interfaces;
+using Domain.PersistenceModels;
 using Domain.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class CalendarService : ICalendarService
     {

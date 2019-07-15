@@ -1,8 +1,8 @@
 using AutoMapper;
-using Infrastructure.Models;
 using Domain.Models;
 using WebApi.ViewModels;
 using WebApi.InputModels;
+using Domain.PersistenceModels;
 
 public class CalendaEventProfile : Profile
 {

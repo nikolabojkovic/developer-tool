@@ -1,6 +1,6 @@
-using Infrastructure.Core;
+using Domain.Models;
 
-namespace Infrastructure.Models 
+namespace Domain.PersistenceModels 
 {
     public class TodoModel : Entity
     {

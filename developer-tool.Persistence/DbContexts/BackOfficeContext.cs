@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Models;
+using Domain.PersistenceModels;
 using Infrastructure.Configurations;
 using System.Reflection;
 using System.Linq;
-using Infrastructure.Core;
 using Infrastructure.Extensions;
+using Domain.Models;
 
 namespace Infrastructure.DbContexts
 {

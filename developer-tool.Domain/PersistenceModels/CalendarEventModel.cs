@@ -1,8 +1,7 @@
 using System;
-using Common.Enums;
-using Infrastructure.Core;
+using Domain.Models;
 
-namespace Infrastructure.Models 
+namespace Domain.PersistenceModels
 {
     public class CalendarEventModel : Entity
     {

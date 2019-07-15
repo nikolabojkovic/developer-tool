@@ -1,4 +1,4 @@
-using Infrastructure.Models;
+using Domain.PersistenceModels;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

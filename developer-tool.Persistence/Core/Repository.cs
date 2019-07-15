@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Core.Interfaces;
 using Microsoft.Extensions.Logging;
+using Domain.Models;
 
 namespace Infrastructure.Core
 {
