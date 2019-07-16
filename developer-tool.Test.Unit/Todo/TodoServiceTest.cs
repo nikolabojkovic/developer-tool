@@ -9,6 +9,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Domain.PersistenceModels;
 using Application.Services;
+using Core.Options;
+using System.Threading.Tasks;
 
 namespace TestUnit.TodoTests.Services 
 {
@@ -25,8 +27,9 @@ namespace TestUnit.TodoTests.Services
             var mapperMock = new Mock<IMapper>();
                 mapperMock.Setup(m => m.Map<IEnumerable<Todo>>(It.IsAny<IEnumerable<TodoModel>>()))
                           .Returns(It.IsAny<IEnumerable<Todo>>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
             
             // Act
             var results = todoService.GetAllData();
@@ -50,7 +53,11 @@ namespace TestUnit.TodoTests.Services
                 mapperMock.Setup(m => m.Map<Todo>(It.IsAny<TodoModel>()))
                           .Returns(It.IsAny<Todo>());
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var cacheMock = new Mock<ICacheProvider>();
+                cacheMock.Setup(x => x.GetAsync<Todo>(It.IsAny<string>())).ReturnsAsync(It.IsAny<Todo>());
+                cacheMock.Setup(x => x.SetAsync<Todo>(It.IsAny<string>(), It.IsAny<Todo>(), TimeSpan.FromSeconds(10))).Returns(Task.CompletedTask);
+                cacheMock.Setup(x => x.CacheOptions).Returns(new CacheOptions { DefaultCacheTime = 10000, IsCachingEnabled = false });
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             var result = todoService.GetById(1);
@@ -71,8 +78,9 @@ namespace TestUnit.TodoTests.Services
             var mapperMock = new Mock<IMapper>();
                 mapperMock.Setup(m => m.Map<TodoModel>(It.IsAny<Todo>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.Store(It.IsAny<Todo>());
@@ -93,8 +101,9 @@ namespace TestUnit.TodoTests.Services
             var mapperMock = new Mock<IMapper>();
                 mapperMock.Setup(m => m.Map<Todo, TodoModel>(It.IsAny<Todo>(),It.IsAny<TodoModel>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.Update(It.IsAny<Todo>());
@@ -115,8 +124,9 @@ namespace TestUnit.TodoTests.Services
             var mapperMock = new Mock<IMapper>();
                 mapperMock.Setup(m => m.Map<TodoModel>(It.IsAny<Todo>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.Remove(1);
@@ -147,8 +157,9 @@ namespace TestUnit.TodoTests.Services
                           .Returns(mappedTodoDomainModel.Object);
                 mapperMock.Setup(m => m.Map<Todo, TodoModel>(It.IsAny<Todo>(),It.IsAny<TodoModel>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.Complete(1);
@@ -183,8 +194,9 @@ namespace TestUnit.TodoTests.Services
                           .Returns(mappedTodoDomainModel.Object);
                 mapperMock.Setup(m => m.Map<Todo, TodoModel>(It.IsAny<Todo>(),It.IsAny<TodoModel>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.UnComplete(1);
@@ -218,8 +230,9 @@ namespace TestUnit.TodoTests.Services
                           .Returns(mappedTodoDomainModel.Object);
                 mapperMock.Setup(m => m.Map<Todo, TodoModel>(It.IsAny<Todo>(),It.IsAny<TodoModel>()))
                           .Returns(It.IsAny<TodoModel>());
+            var cacheMock = new Mock<ICacheProvider>();
 
-            var todoService = new TodoService(todoRepository.Object, mapperMock.Object);
+            var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
             todoService.Archive(1);

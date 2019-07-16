@@ -22,5 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.WebApi\WebApi.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="appsettings.test.json" Link="appsettings.test.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

@@ -21,6 +21,9 @@
   <ItemGroup>
     <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.development.json" Link="appsettings.development.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.production.json" Link="appsettings.production.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />

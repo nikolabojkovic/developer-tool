@@ -21,6 +21,7 @@ using System.Linq;
 using MediatR;
 using WebApi.Middlewares;
 using Microsoft.OpenApi.Models;
+using Core.Options;
 
 namespace WebApi
 {
@@ -32,7 +33,8 @@ namespace WebApi
         {
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
                  // .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -67,6 +69,8 @@ namespace WebApi
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddOptions();
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -107,7 +111,8 @@ namespace WebApi
             };
 
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(t => t.Name.EndsWith("Service"))
+                   .Where(t => t.Name.EndsWith("Service") 
+                            || t.Name.EndsWith("Provider"))
                    .AsImplementedInterfaces();  
             
             builder.RegisterGeneric(typeof(Repository<>))

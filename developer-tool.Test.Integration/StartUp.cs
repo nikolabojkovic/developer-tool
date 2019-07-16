@@ -15,6 +15,8 @@ using WebApi.Validation;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Infrastructure.Data;
+using Core.Options;
+using Microsoft.Extensions.Options;
 
 namespace TestIntegration
 {
@@ -26,7 +28,7 @@ namespace TestIntegration
         {
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                 .AddJsonFile("appsettings.test.json", optional: false, reloadOnChange: true);
 
             Configuration = builder.Build();
         }
@@ -45,13 +47,17 @@ namespace TestIntegration
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();            
+            services.AddTransient<IEmailService, EmailService>();                       
             services.AddAutoMapper(typeof(WebApi.Startup));
+            services.AddDistributedMemoryCache();
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
+            services.AddOptions();
+            services.AddOptions();
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
         }
 
         public void Configure(IApplicationBuilder app)
@@ -70,7 +76,8 @@ namespace TestIntegration
             };
 
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(t => t.Name.EndsWith("Service"))
+                   .Where(t => t.Name.EndsWith("Service")                   
+                            || t.Name.EndsWith("Provider"))
                    .AsImplementedInterfaces();  
             
             builder.RegisterGeneric(typeof(Repository<>))

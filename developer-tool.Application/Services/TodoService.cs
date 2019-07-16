@@ -5,6 +5,8 @@ using Core.Interfaces;
 using Application.Interfaces;
 using Domain.Models;
 using Domain.PersistenceModels;
+using System.Threading.Tasks;
+using System;
 
 namespace Application.Services
 {
@@ -12,14 +14,17 @@ namespace Application.Services
     {
         private readonly IRepository<TodoModel> _todoRepository;
         private readonly IMapper _mapper;
+        private readonly ICacheProvider _cache;
 
         public TodoService(
             IRepository<TodoModel> todoRepository,
-            IMapper mapper
+            IMapper mapper,
+            ICacheProvider cache
         )
         {
             _todoRepository = todoRepository;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public void Archive(int id)
@@ -51,9 +56,14 @@ namespace Application.Services
 
         public Todo GetById(int id)
         {
+            var cachedItem = Task.Run(() => _cache.GetAsync<Todo>($"Todo_{id}")).Result;
+            if (cachedItem != null)
+                return cachedItem;
+
             var repoModel = _todoRepository.Find(x => x.Id == id)
                                            .FirstOrDefault();
             var domainModel = _mapper.Map<Todo>(repoModel);
+            Task.Run(() => _cache.SetAsync<Todo>($"Todo_{id}", domainModel, TimeSpan.FromMilliseconds(_cache.CacheOptions.DefaultCacheTime))).Wait();
             return domainModel;
         }
 
