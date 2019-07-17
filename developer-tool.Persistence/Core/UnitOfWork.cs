@@ -13,9 +13,9 @@ namespace Infrastructure.Core
             _context = context;
         }
 
-        public DbContext Data
+        public DbSet<T> Data<T>() where T : class
         {
-            get { return _context; }
+            return _context.Set<T>(); 
         }
 
         public void Commit()

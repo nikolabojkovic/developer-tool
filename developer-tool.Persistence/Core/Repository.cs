@@ -23,31 +23,31 @@ namespace Infrastructure.Core
         public IQueryable<T> FindAll()
         {
             _logger.LogInformation("Getting all items");
-            return _unitOfWork.Data.Set<T>();
+            return _unitOfWork.Data<T>();
         }
 
         public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
             _logger.LogInformation("Getting item by condition");
-            return _unitOfWork.Data.Set<T>().Where(predicate);
+            return _unitOfWork.Data<T>().Where(predicate);
         } 
 
         public void Add(T newEntity)
         {
             _logger.LogInformation("Adding new item");
-            _unitOfWork.Data.Set<T>().Add(newEntity);
+            _unitOfWork.Data<T>().Add(newEntity);
         }
 
         public void Update(T entity)
         {
             _logger.LogInformation("Updating item with id " + entity.Id);
-            _unitOfWork.Data.Set<T>().Update(entity);
+            _unitOfWork.Data<T>().Update(entity);
         }
 
         public void Delete(T entity)
         {
             _logger.LogInformation("Deleting item with id " + entity.Id);
-            _unitOfWork.Data.Set<T>().Remove(entity);
+            _unitOfWork.Data<T>().Remove(entity);
         }
     }
 }
