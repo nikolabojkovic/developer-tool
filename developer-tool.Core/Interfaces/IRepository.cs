@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Core.Interfaces
 {
@@ -11,5 +13,7 @@ namespace Core.Interfaces
         void Add(T newEntity);
         void Update(T entity);
         void Delete(T entity);
+
+        Task AddAsync(T newEntity, CancellationToken cancellationToken);
     }
 }

@@ -3,8 +3,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using Core.Interfaces;
 using Microsoft.Extensions.Logging;
-using Domain.Models;
 using Domain.PersistenceModels;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Persistence.Core
 {
@@ -49,6 +50,12 @@ namespace Persistence.Core
         {
             _logger.LogInformation("Deleting item with id " + entity.Id);
             _unitOfWork.Data<T>().Remove(entity);
+        }
+
+        public async Task AddAsync(T newEntity, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Adding new item async");
+            await _unitOfWork.Data<T>().AddAsync(newEntity, cancellationToken);
         }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Persistence.Data;
 using Core.Options;
+using MediatR;
 
 namespace TestIntegration
 {
@@ -45,7 +46,8 @@ namespace TestIntegration
                     });
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();                      
+            services.AddTransient<IUnitOfWork, UnitOfWork>();  
+            services.AddMediatR(new Assembly[] { Assembly.Load("Application") });                    
             services.AddAutoMapper(typeof(WebApi.Startup));
             services.AddDistributedMemoryCache();
             services.AddMvc(opt => {
