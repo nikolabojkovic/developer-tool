@@ -4,10 +4,11 @@ using System.Linq.Expressions;
 using Core.Interfaces;
 using Microsoft.Extensions.Logging;
 using Domain.Models;
+using Domain.PersistenceModels;
 
 namespace Persistence.Core
 {
-    public class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : EntityModel
     {
         private IUnitOfWork _unitOfWork;
         private ILogger _logger;

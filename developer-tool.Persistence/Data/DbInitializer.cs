@@ -43,6 +43,22 @@ namespace Persistence.Data
             context.SaveChanges();
         }
 
+        public static void SeedUsers(BackOfficeContext context)
+        {
+             if (context.Set<UserModel>().Any())
+            {
+                return; // Db has been seeded;
+            }
+
+            var users = new UserModel[]
+            {
+                CreateUser("admin", "admin123", "Administrator", string.Empty),
+            };
+
+            context.Set<UserModel>().AddRange(users);
+            context.SaveChanges();
+        }
+
         public static CalendarEventModel CreateEvent(
             string color,
             string title,
@@ -76,6 +92,16 @@ namespace Persistence.Data
                 Description = description,
                 IsCompleted = isCompleted,
                 IsArchived = isArchived
+            };
+        }
+
+        public static UserModel CreateUser(string username, string password, string firstName, string lastName)
+        {
+            return new UserModel {
+                Username = username,
+                Password = password,
+                FirstName = firstName,
+                LastName = lastName
             };
         }
     }

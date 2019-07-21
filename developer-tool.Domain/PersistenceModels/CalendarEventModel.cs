@@ -1,9 +1,8 @@
 using System;
-using Domain.Models;
 
 namespace Domain.PersistenceModels
 {
-    public class CalendarEventModel : Entity
+    public class CalendarEventModel : EntityModel
     {
         public string Color { get; set; }
         public string Title { get; set; }
