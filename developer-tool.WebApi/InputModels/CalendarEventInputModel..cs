@@ -1,5 +1,4 @@
 using System;
-using Common.Enums;
 
 namespace WebApi.InputModels 
 {

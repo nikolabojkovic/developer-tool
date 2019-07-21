@@ -1,5 +1,5 @@
 using System;
-using Common.Enums;
+using Domain.Enums;
 using Domain.Models;
 
 namespace Domain.PersistenceModels

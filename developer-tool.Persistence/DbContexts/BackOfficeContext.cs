@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Domain.PersistenceModels;
-using Infrastructure.Configurations;
+using Persistence.Configurations;
 using System.Reflection;
 using System.Linq;
-using Infrastructure.Extensions;
+using Persistence.Extensions;
 using Domain.Models;
 
-namespace Infrastructure.DbContexts
+namespace Persistence.DbContexts
 {
     public class BackOfficeContext : DbContext
     {

@@ -3,8 +3,6 @@ using MediatR;
 using Application.Authentication.Commands;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Exceptions;
-using Domain.Models;
 
 namespace Application.Authentication.CommandHandlers
 {

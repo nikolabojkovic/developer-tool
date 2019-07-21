@@ -5,7 +5,7 @@ using Core.Interfaces;
 using Microsoft.Extensions.Logging;
 using Domain.Models;
 
-namespace Infrastructure.Core
+namespace Persistence.Core
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {

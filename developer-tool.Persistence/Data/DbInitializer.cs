@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.DbContexts;
+using Persistence.DbContexts;
 using Domain.PersistenceModels;
-using Common.Enums;
+using Domain.Enums;
 
-namespace Infrastructure.Data
+namespace Persistence.Data
 {
     public static class DbInitializer
     {

@@ -7,7 +7,7 @@ using System;
 using WebApi.ViewModels;
 using WebApi.InputModels;
 using FluentAssertions;
-using Common.Enums;
+using Domain.Enums;
 using System.Net;
 using System.Text;
 

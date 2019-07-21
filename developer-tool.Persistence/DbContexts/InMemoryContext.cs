@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Domain.PersistenceModels;
 
-namespace Infrastructure.DbContexts
+namespace Persistence.DbContexts
 {
     public class InMemoryContext : DbContext
     {

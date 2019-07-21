@@ -9,14 +9,13 @@ using Core.Interfaces;
 using Autofac;
 using System.Reflection;
 using AutoMapper;
-using Infrastructure.DbContexts;
-using Infrastructure.Core;
+using Persistence.DbContexts;
+using Persistence.Core;
 using WebApi.Validation;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
-using Infrastructure.Data;
+using Persistence.Data;
 using Core.Options;
-using Microsoft.Extensions.Options;
 
 namespace TestIntegration
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Enums
+namespace Domain.Enums
 {
     public enum ReminderTimeOffset
     {

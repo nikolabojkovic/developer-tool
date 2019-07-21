@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
-using Infrastructure.DbContexts;
+using Persistence.DbContexts;
 
-namespace Infrastructure.Core
+namespace Persistence.Core
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Extensions
+namespace Persistence.Extensions
 {
     // See https://weblogs.asp.net/ricardoperes/implementing-missing-features-in-entity-framework-core-part-7-entity-configuration-in-mapping-classes
     public static class EntityTypeConfigurationExtensions

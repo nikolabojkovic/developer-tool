@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using Domain.Models;
 using FluentAssertions;
-using Common.Enums;
+using Domain.Enums;
 
 namespace TestUnit 
 {
