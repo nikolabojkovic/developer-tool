@@ -7,6 +7,7 @@ using WebApi.Results;
 using WebApi.InputModels;
 using Domain.Models;
 using WebApi.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -32,7 +33,7 @@ namespace WebApi.Controllers
             return SuccessObjectResult.Data(viewModels);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public IActionResult GetById(int id)
         {
             var item = _todoService.GetById(id);
