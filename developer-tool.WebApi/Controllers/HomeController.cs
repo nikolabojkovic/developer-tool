@@ -1,16 +1,12 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Infrastructure.Models;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-
 namespace WebApi.Controllers
 {
     [Route("/")]
     public class HomeController : Controller
     {
+        [ApiExplorerSettings(IgnoreApi=true)]
         [Produces("text/html")]
+        [HttpGet]
         public IActionResult Index() {
             // var path = "static-files/default-home-page.html";
             // var response = new HttpResponseMessage();

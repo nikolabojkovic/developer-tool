@@ -1,18 +1,18 @@
 using AutoMapper;
-using Infrastructure.Models;
-using Domain.Models;
 using WebApi.ViewModels;
 using WebApi.InputModels;
+using Domain.PersistenceModels;
+using Domain.Models;
 
 public class ReminderProfile : Profile
 {
 	public ReminderProfile()
 	{
-		CreateMap<Domain.Models.Reminder, ReminderViewModel>();
-		CreateMap<ReminderInputModel, Domain.Models.Reminder>()
+		CreateMap<Reminder, ReminderViewModel>();
+		CreateMap<ReminderInputModel, Reminder>()
 			.ForMember(x => x.Id, opt => opt.Ignore());
-		CreateMap<Domain.Models.Reminder, Infrastructure.Models.ReminderModel>()
+		CreateMap<Reminder, ReminderModel>()
 			.ForMember(x => x.Id, opt => opt.Ignore());
-		CreateMap<Infrastructure.Models.ReminderModel, Domain.Models.Reminder>();
+		CreateMap<ReminderModel, Reminder>();
 	}
 }

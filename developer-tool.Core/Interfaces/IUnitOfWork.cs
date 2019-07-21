@@ -4,7 +4,7 @@ namespace Core.Interfaces
 {
     public interface IUnitOfWork
     {
-        DbContext Data { get; }
+        DbSet<T> Data<T>() where T : class;
         void Commit();
     }
 }

@@ -1,26 +1,21 @@
 using Email.Services;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using Core;
 using Core.Interfaces;
-using Infrastructure.DbContexts;
-using Infrastructure.Models;
-using Infrastructure.Core;
-using Domain.Interfaces;
-using Domain.Services;
-using WebApi.Validation;
-using Infrastructure.Data;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
+using Persistence.DbContexts;
+using Persistence.Core;
+using WebApi.Validation;
+using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
+using Persistence.Data;
+using Core.Options;
 
 namespace TestIntegration
 {
@@ -32,7 +27,7 @@ namespace TestIntegration
         {
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                 .AddJsonFile("appsettings.test.json", optional: false, reloadOnChange: true);
 
             Configuration = builder.Build();
         }
@@ -51,13 +46,17 @@ namespace TestIntegration
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();            
+            services.AddTransient<IEmailService, EmailService>();                       
             services.AddAutoMapper(typeof(WebApi.Startup));
+            services.AddDistributedMemoryCache();
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
+            services.AddOptions();
+            services.AddOptions();
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
         }
 
         public void Configure(IApplicationBuilder app)
@@ -70,13 +69,14 @@ namespace TestIntegration
         {
             Assembly[] assemblies = {
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Domain"),
+                Assembly.Load("Application"),
                 Assembly.Load("Core"),
-                Assembly.Load("WebApi")
+                Assembly.Load("Persistence")
             };
 
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(t => t.Name.EndsWith("Service"))
+                   .Where(t => t.Name.EndsWith("Service")                   
+                            || t.Name.EndsWith("Provider"))
                    .AsImplementedInterfaces();  
             
             builder.RegisterGeneric(typeof(Repository<>))

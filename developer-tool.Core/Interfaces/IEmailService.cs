@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-namespace Email.Services
+namespace Core.Interfaces
 {
     public interface IEmailService
     {

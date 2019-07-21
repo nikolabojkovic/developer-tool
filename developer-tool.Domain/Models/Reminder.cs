@@ -1,5 +1,5 @@
 using System;
-using Common.Enums;
+using Domain.Enums;
 
 namespace Domain.Models 
 {

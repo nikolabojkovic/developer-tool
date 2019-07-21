@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Email.Services;
+using Core.Interfaces;
 using WebApi.InputModels;
 
 namespace WebApi.Controllers {

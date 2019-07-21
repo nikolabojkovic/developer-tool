@@ -1,12 +1,6 @@
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Infrastructure.Models;
-using Domain.Interfaces;
-using WebApi.ViewModels;
-using WebApi.Filters;
 using AutoMapper;
-using System.Collections.Generic;
-using WebApi.InputModels;
+using Domain.PersistenceModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers 
 {

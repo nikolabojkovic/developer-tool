@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,11 +21,12 @@
   <ItemGroup>
     <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.development.json" Link="appsettings.development.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="appsettings.production.json" Link="appsettings.production.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\developer-tool.common\Common.csproj" />
-    <ProjectReference Include="..\developer-tool.core\Core.csproj" />
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\developer-tool.domain\Domain.csproj" />
+    <ProjectReference Include="..\developer-tool.persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

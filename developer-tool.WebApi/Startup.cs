@@ -10,19 +10,18 @@ using FluentValidation.AspNetCore;
 using System;
 using System.Threading.Tasks;
 using Email.Services;
-using Infrastructure.DbContexts;
-using Infrastructure.Models;
-using Infrastructure.Core;
+using Persistence.DbContexts;
+using Persistence.Core;
 using Core.Interfaces;
-using Domain.Interfaces;
-using Domain.Services;
 using WebApi.Validation;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
-
 using System.Linq;
+using MediatR;
+using WebApi.Middlewares;
+using Microsoft.OpenApi.Models;
+using Core.Options;
 
 namespace WebApi
 {
@@ -34,7 +33,8 @@ namespace WebApi
         {
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
                  // .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -54,15 +54,23 @@ namespace WebApi
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
             services.AddDbContext<BackOfficeContext>(opt =>
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
-                                  x => x.MigrationsAssembly("Infrastructure")));
+                                  x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
+            services.AddDistributedMemoryCache();
             services.AddAutoMapper();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Developer-tool API", Version = "v1" });
+            });
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddOptions();
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -80,8 +88,15 @@ namespace WebApi
                 }
             });
 
+            app.UseSwagger();            
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Developer-tool API V1");
+                c.RoutePrefix = "api";
+            });
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
@@ -89,14 +104,15 @@ namespace WebApi
         public void ConfigureContainer(ContainerBuilder builder)
         {
             Assembly[] assemblies = {
+                Assembly.Load("Persistence"),
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Domain"),
-                Assembly.Load("Core"),
-                Assembly.Load("WebApi")
+                Assembly.Load("Application"),
+                Assembly.Load("Core")
             };
 
             builder.RegisterAssemblyTypes(assemblies)
-                   .Where(t => t.Name.EndsWith("Service"))
+                   .Where(t => t.Name.EndsWith("Service") 
+                            || t.Name.EndsWith("Provider"))
                    .AsImplementedInterfaces();  
             
             builder.RegisterGeneric(typeof(Repository<>))
