@@ -33,7 +33,8 @@ namespace WebApi.Controllers
             return SuccessObjectResult.Data(viewModels);
         }
 
-        [HttpGet("{id}"), Authorize]
+        // [Authorize]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var item = _todoService.GetById(id);

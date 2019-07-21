@@ -45,8 +45,7 @@ namespace TestIntegration
                     });
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();                       
+            services.AddTransient<IUnitOfWork, UnitOfWork>();                      
             services.AddAutoMapper(typeof(WebApi.Startup));
             services.AddDistributedMemoryCache();
             services.AddMvc(opt => {
@@ -69,9 +68,8 @@ namespace TestIntegration
         {
             Assembly[] assemblies = {
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Application"),
-                Assembly.Load("Core"),
-                Assembly.Load("Persistence")
+                Assembly.Load("Persistence"),
+                Assembly.Load("Application")
             };
 
             builder.RegisterAssemblyTypes(assemblies)

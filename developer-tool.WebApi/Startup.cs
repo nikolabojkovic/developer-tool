@@ -59,7 +59,6 @@ namespace WebApi
                      opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddDistributedMemoryCache();
             services.AddAutoMapper();
@@ -124,8 +123,7 @@ namespace WebApi
             Assembly[] assemblies = {
                 Assembly.Load("Persistence"),
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Application"),
-                Assembly.Load("Core")
+                Assembly.Load("Application")
             };
 
             builder.RegisterAssemblyTypes(assemblies)
