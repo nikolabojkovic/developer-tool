@@ -28,7 +28,8 @@ namespace TestIntegration
         {
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile("appsettings.test.json", optional: false, reloadOnChange: true);
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
 
             Configuration = builder.Build();
         }
@@ -96,6 +97,7 @@ namespace TestIntegration
         {
             var dbContext = app.ApplicationServices.GetService<BackOfficeContext>();
             DbInitializer.SeedEvents(dbContext);
+            DbInitializer.SeedUsers(dbContext);
         }
     }
 

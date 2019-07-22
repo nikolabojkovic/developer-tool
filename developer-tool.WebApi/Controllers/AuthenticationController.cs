@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.InputModels;
+using WebApi.Results;
 
 namespace WebApi.Controllers 
 {
@@ -32,7 +33,7 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginInputModel loginModel) 
         {
-            return Ok(await _mediator.Send(new LoginCommand {
+            return SuccessObjectResult.Data(await _mediator.Send(new LoginCommand {
                 Username = loginModel.Username,
                 Password = loginModel.Password
             }));
