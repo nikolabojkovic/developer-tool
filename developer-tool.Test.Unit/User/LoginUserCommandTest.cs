@@ -10,6 +10,7 @@ using Core.Interfaces;
 using Domain.Models;
 using Domain.PersistenceModels;
 using Microsoft.Extensions.Configuration;
+using MockQueryable.Moq;
 using Moq;
 using Xunit;
 
@@ -21,10 +22,12 @@ namespace TestUnit.UsesrTests.CommandHandlers
         public async Task Login_User_ShouldReturnToken()
         {
             // Arrange
-            var expectedTodos = new UserModel[] { new UserModel { Username =  "admin", Password = "admin123" } };
+            var expectedUsers = new UserModel[] { new UserModel { Username =  "admin", Password = "admin123" } };
+            var mock = expectedUsers.AsQueryable().BuildMock();
             Mock<IRepository<UserModel>> userRepo = new Mock<IRepository<UserModel>>();
+            userRepo.Setup(repo => repo.FindAll()).Returns(mock.Object);
             userRepo.Setup(repo => repo.Find(It.IsAny<Expression<Func<UserModel, bool>>>()))
-                          .Returns(expectedTodos.AsQueryable());
+                          .Returns(mock.Object);
             Mock<IConfiguration> config = new Mock<IConfiguration>();
             config.SetupGet(m => m[It.Is<string>(s => s == "Jwt:Key")]).Returns("testKey12312_woeifo23423");
             config.SetupGet(m => m[It.Is<string>(s => s == "Jwt:Issuer")]).Returns("http://localhost:5000");

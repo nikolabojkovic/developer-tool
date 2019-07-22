@@ -10,18 +10,19 @@ using Xunit;
 
 namespace TestIntegration
 {
-    public class LoginUserSuccessTest : IntegrationTestBase
+    public class LoginUserFailTest : IntegrationTestBase
     {
         private readonly HttpClient _client;
 
-        public LoginUserSuccessTest() 
+        public LoginUserFailTest() 
         {
             _client = base.GetClient();
         }
 
         [Theory]
-        [InlineData("admin", "admin123")]
-        public async Task Post_LoginUser_ShouldReturnTokenViewModel(
+        [InlineData("Wrong credentials.", "admin", "tes12345")]
+        public async Task Post_LoginUser_ShouldReturnBadRequest(
+            string errorMessage,
             string username, 
             string password)
         {
@@ -35,15 +36,11 @@ namespace TestIntegration
 
             // Act
             var response = await _client.PostAsync($"/api/authentication/login/", stringContent);
-            response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
-            dynamic responseResult = JsonConvert.DeserializeObject<dynamic>(stringResponse);
-            var result = JsonConvert.DeserializeObject<TokenViewModel>(responseResult.data.ToString()) as TokenViewModel;
+            stringResponse.Contains(errorMessage).Should().BeTrue();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);  
-            result.Token.Should().NotBeEmpty();
-            result.ExpiresIn.Should().Be(30);         
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);         
         }
     }
 }

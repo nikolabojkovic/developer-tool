@@ -9,18 +9,19 @@ using Xunit;
 
 namespace TestIntegration
 {
-    public class RegisterUserSuccessTest : IntegrationTestBase
+    public class RegisterUserFailTest : IntegrationTestBase
     {
         private readonly HttpClient _client;
 
-        public RegisterUserSuccessTest() 
+        public RegisterUserFailTest() 
         {
             _client = base.GetClient();
         }
 
         [Theory]
-        [InlineData("username1", "test123", "fTest", "lTest")]
+        [InlineData("Username: {0} is not available, plese choose other username.", "admin", "test123", "fTest", "lTest")]
         public async Task Post_RegisterUser_ShouldReturnNoContentResult(
+            string errorMessage,
             string username, 
             string password, 
             string firstName,
@@ -38,10 +39,11 @@ namespace TestIntegration
 
             // Act
             var response = await _client.PostAsync($"/api/authentication/register/", stringContent);
-            response.EnsureSuccessStatusCode();
+            var stringResponse = await response.Content.ReadAsStringAsync();
+            stringResponse.Contains(string.Format(errorMessage, username)).Should().BeTrue();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);            
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);          
         }
     }
 }

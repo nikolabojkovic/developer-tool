@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 using Application.Authentication.Commands;
 using System.Threading;
@@ -7,6 +6,8 @@ using Domain.Models;
 using Core.Interfaces;
 using Domain.PersistenceModels;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Core.Exceptions;
 
 namespace Application.Authentication.CommandHandlers
 {
@@ -23,6 +24,9 @@ namespace Application.Authentication.CommandHandlers
 
         public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {            
+            if (await _userRepo.FindAll().AnyAsync(x => x.Username == request.Username, cancellationToken))
+                throw new BadRequestException($"Username: {request.Username} is not available, plese choose other username.");
+
             var user = User.Create(request.Username, request.Password, request.FirstName, request.LastName);
             await _userRepo.AddAsync(_mapper.Map<UserModel>(user), cancellationToken);
 

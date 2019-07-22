@@ -104,7 +104,7 @@ namespace WebApi
                 }
             });
 
-            app.UseSwagger();            
+            app.UseSwagger();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseDefaultFiles();
             app.UseStaticFiles();

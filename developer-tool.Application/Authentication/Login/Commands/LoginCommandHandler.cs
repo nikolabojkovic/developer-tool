@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Core.Interfaces;
 using Domain.PersistenceModels;
-using System.Linq;
 using Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,30 +31,30 @@ namespace Application.Authentication.CommandHandlers
             var expiresInMinutes = 30;
 
             var user = await _userRepo.Find(x => x.Username == request.Username && x.Password == request.Password)
-                                      .SingleOrDefaultAsync();
+                                      .SingleOrDefaultAsync(cancellationToken);
 
             if (user == null)
-                throw new BadRequestException("Wrong credentials");
+                throw new BadRequestException("Wrong credentials.");
 
             // TODO: refactor, move claim and token creation in separate provider (Authntication provider)
             var claims = new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                claims,
-                expires: DateTime.Now.AddMinutes(expiresInMinutes),
-                signingCredentials: creds);
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+            _config["Jwt:Issuer"],
+            claims,
+            expires: DateTime.Now.AddMinutes(expiresInMinutes),
+            signingCredentials: creds);
 
-                return new TokenViewModel { 
-                    Token = new JwtSecurityTokenHandler().WriteToken(token),
-                    ExpiresIn = expiresInMinutes
-                };
+            return new TokenViewModel { 
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpiresIn = expiresInMinutes
+            };
 
         }
     }

@@ -17,6 +17,7 @@ using FluentValidation.AspNetCore;
 using Persistence.Data;
 using Core.Options;
 using MediatR;
+using WebApi.Middlewares;
 
 namespace TestIntegration
 {
@@ -62,7 +63,8 @@ namespace TestIntegration
         }
 
         public void Configure(IApplicationBuilder app)
-        {            
+        {             
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
