@@ -86,7 +86,8 @@ namespace WebApi
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddOptions();
-            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));
+            services.Configure<JwtOptions>(Configuration.GetSection("Jwt"));  
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)

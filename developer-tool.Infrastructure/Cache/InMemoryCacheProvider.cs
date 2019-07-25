@@ -42,6 +42,9 @@ namespace Infrastructure.Caching
 
         public async Task SetAsync<T>(string key, T value, TimeSpan cacheTime) where T : class
         {
+             if (!CacheOptions.IsCachingEnabled)
+                return;
+
             if (value == null)
                 return;
 

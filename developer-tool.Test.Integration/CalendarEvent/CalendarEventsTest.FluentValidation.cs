@@ -5,6 +5,7 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System;
 
 namespace TestIntegration {
 
@@ -59,6 +60,7 @@ namespace TestIntegration {
             // Act
             var response = await _client.PutAsync($"/api/calendar/events/{id}", stringContent);
             var stringResponse = await response.Content.ReadAsStringAsync();
+            // Console.WriteLine(stringResponse);
             stringResponse.Contains(errorMessage).Should().BeTrue();
 
             // Assert

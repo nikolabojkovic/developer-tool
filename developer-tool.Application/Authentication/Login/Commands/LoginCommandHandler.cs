@@ -12,17 +12,19 @@ using Core.Interfaces;
 using Domain.PersistenceModels;
 using Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Core.Options;
+using Microsoft.Extensions.Options;
 
 namespace Application.Authentication.CommandHandlers
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, TokenViewModel>
     {
-        private readonly IConfiguration _config;
+        private readonly JwtOptions _jwtOptions;
         private readonly IRepository<UserModel> _userRepo;
 
-        public LoginCommandHandler(IConfiguration config, IRepository<UserModel> userRepo)
+        public LoginCommandHandler(IOptions<JwtOptions> jwtOptions, IRepository<UserModel> userRepo)
          {
-             _config = config;
+             _jwtOptions = jwtOptions.Value;
              _userRepo = userRepo;
          }
 
@@ -42,11 +44,11 @@ namespace Application.Authentication.CommandHandlers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-            _config["Jwt:Issuer"],
+            var token = new JwtSecurityToken(_jwtOptions.Issuer,
+            _jwtOptions.Issuer,
             claims,
             expires: DateTime.Now.AddMinutes(expiresInMinutes),
             signingCredentials: creds);
@@ -55,7 +57,6 @@ namespace Application.Authentication.CommandHandlers
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpiresIn = expiresInMinutes
             };
-
         }
     }
 }

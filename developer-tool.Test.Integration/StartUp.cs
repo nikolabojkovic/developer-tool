@@ -1,4 +1,3 @@
-using Email.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -23,16 +22,10 @@ namespace TestIntegration
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
-
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                 .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
-
-            Configuration = builder.Build();
+             new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                                       .Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -52,14 +45,22 @@ namespace TestIntegration
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });                    
             services.AddAutoMapper(typeof(WebApi.Startup));
             services.AddDistributedMemoryCache();
+            services.AddOptions();
+            services.Configure<CacheOptions>(options =>
+            {
+                options.IsCachingEnabled = false;
+                options.DefaultCacheTime = 0;
+            });
+            services.Configure<JwtOptions>(options =>  
+            {
+                options.Key = "JwtTestKey-woifj2f2iefjo2eifj2oef";
+                options.Issuer = "http://localhost:5000";
+            });
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
-            services.AddOptions();
-            services.AddOptions();
-            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
         }
 
         public void Configure(IApplicationBuilder app)
@@ -90,7 +91,6 @@ namespace TestIntegration
             IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            // this.Configure(app, env, loggerFactory);
             this.Configure(app);
             PopulateTestData(app);
         }

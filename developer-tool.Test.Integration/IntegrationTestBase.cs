@@ -12,7 +12,7 @@ namespace TestIntegration
     {
         protected HttpClient GetClient()
         {
-            var builder = WebHost.CreateDefaultBuilder(new string[] {})
+            var builder = new WebHostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
