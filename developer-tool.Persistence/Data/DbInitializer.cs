@@ -52,7 +52,7 @@ namespace Persistence.Data
 
             var users = new UserModel[]
             {
-                CreateUser("admin", "admin123", "Administrator", string.Empty),
+                CreateUser("admin", "admiN123", "Administrator", string.Empty),
             };
 
             context.Set<UserModel>().AddRange(users);

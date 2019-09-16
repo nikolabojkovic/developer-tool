@@ -19,7 +19,8 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData("Username: {0} is not available, plese choose other username.", "admin", "test123", "fTest", "lTest")]
+        [InlineData("Username: {0} is not available, plese choose other username.", "admin", "Test1234", "fTest", "lTest")]
+        [InlineData("Password should be at least 8 characters long.", "admin", "Test123", "fTest", "lTest")]
         public async Task Post_RegisterUser_ShouldReturnNoContentResult(
             string errorMessage,
             string username, 

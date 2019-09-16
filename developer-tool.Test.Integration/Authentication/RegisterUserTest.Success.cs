@@ -19,7 +19,7 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData("username1", "test123", "fTest", "lTest")]
+        [InlineData("username1", "teSt1234", "fTest", "lTest")]
         public async Task Post_RegisterUser_ShouldReturnNoContentResult(
             string username, 
             string password, 

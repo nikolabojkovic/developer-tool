@@ -88,3 +88,10 @@ https://fluentvalidation.net/custom-validators
 
 // web.config contains ENVIRONMENT_VARIABLE value to reference correct appSetting.{evn}.json file
 appSetting.{evn}.json have to be uploaded manually (security reasons)
+
+// regEx tutorial
+https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285
+
+// inportant links
+https://medium.com/asos-techblog/testing-authorization-scenarios-in-asp-net-core-web-api-484bc95d5f6f
+https://auth0.com/blog/securing-asp-dot-net-core-2-applications-with-jwts/

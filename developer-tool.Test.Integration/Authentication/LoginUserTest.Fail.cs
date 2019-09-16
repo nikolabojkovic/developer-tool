@@ -20,7 +20,8 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData("Wrong credentials.", "admin", "tes12345")]
+        [InlineData("Wrong credentials.", "admin", "teSt12345")]
+        [InlineData("Password must contain at least lovercase and upercase letter and number.", "admin", "test12345")]
         public async Task Post_LoginUser_ShouldReturnBadRequest(
             string errorMessage,
             string username, 

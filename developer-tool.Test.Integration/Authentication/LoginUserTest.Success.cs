@@ -20,7 +20,7 @@ namespace TestIntegration
         }
 
         [Theory]
-        [InlineData("admin", "admin123")]
+        [InlineData("admin", "admiN123")]
         public async Task Post_LoginUser_ShouldReturnTokenViewModel(
             string username, 
             string password)
