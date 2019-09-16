@@ -25,6 +25,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var items = _todoService.GetAllData();
@@ -55,6 +56,13 @@ namespace WebApi.Controllers
 
             _todoService.Store(newItem);
             return Ok();
+        }
+
+        [HttpGet("test")]
+        [Authorize]
+        public IActionResult Test() 
+        {
+            return Ok("It's ok.");
         }
 
         [HttpPut("{id}")]

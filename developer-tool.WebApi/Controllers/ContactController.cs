@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using WebApi.InputModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers {
 
@@ -12,11 +13,6 @@ namespace WebApi.Controllers {
         public ContactController(IEmailService emailService)
         {
             _emailService = emailService;
-        }
-
-        [HttpPost]
-        public void get() {
-
         }
 
         [HttpPost("send/email")]

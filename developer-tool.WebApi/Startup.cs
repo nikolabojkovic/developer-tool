@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using FluentValidation.AspNetCore;
 using System;
 using System.Threading.Tasks;
-using Email.Services;
+using Swashbuckle.AspNetCore.Swagger;
 using Persistence.DbContexts;
 using Persistence.Core;
 using Core.Interfaces;
@@ -20,11 +20,11 @@ using AutoMapper;
 using System.Linq;
 using MediatR;
 using WebApi.Middlewares;
-using Microsoft.OpenApi.Models;
 using Core.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
 
 namespace WebApi
 {
@@ -62,9 +62,22 @@ namespace WebApi
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddDistributedMemoryCache();
             services.AddAutoMapper();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Developer-tool API", Version = "v1" });
+                options.SwaggerDoc("v1", new Info { Title = "Developer-tool API", Version = "v1" });
+ 
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                });
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
