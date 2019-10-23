@@ -4,6 +4,7 @@ using Persistence.Configurations;
 using System.Reflection;
 using System.Linq;
 using Persistence.Extensions;
+using Persistence.Core;
 
 namespace Persistence.DbContexts
 {
@@ -15,11 +16,22 @@ namespace Persistence.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             base.OnModelCreating(modelBuilder);           
+
+            // foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            // {
+            //     foreach (var property in entityType.GetProperties())
+            //     {
+            //         if (property.ClrType == typeof(bool))
+            //         {
+            //             property.SetValueConverter(new BoolToIntConverter());
+            //         }
+            //     }
+            // }
+
             modelBuilder.UseEntityTypeConfiguration(typeof(TodoConfiguration).Assembly);
 
             RegisterEntities(modelBuilder);
-
-            base.OnModelCreating(modelBuilder);
         }
 
         private void RegisterEntities(ModelBuilder modelBuilder)

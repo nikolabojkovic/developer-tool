@@ -1,7 +1,8 @@
+using System;
 using Domain.PersistenceModels;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Persistence.Configurations
 {
@@ -12,6 +13,8 @@ namespace Persistence.Configurations
             builder.ToTable("Todos");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Description).IsRequired();
+            builder.Property(x => x.IsCompleted);
+            builder.Property(x => x.IsArchived);
         }
     }
 }

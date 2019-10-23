@@ -8,6 +8,8 @@ namespace Domain.PersistenceModels
         public bool Active { get; set; }
         public DateTime Time { get; set; }
         public ReminderTimeOffset TimeOffset { get; set; }
+
+        public int EventId { get; set; }
         public CalendarEventModel Event { get; set; }
     }
 }

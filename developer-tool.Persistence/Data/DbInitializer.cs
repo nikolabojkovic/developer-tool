@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.DbContexts;
 using Domain.PersistenceModels;
 using Domain.Enums;
+using System.Collections.Generic;
 
 namespace Persistence.Data
 {
@@ -67,14 +68,19 @@ namespace Persistence.Data
             DateTime? end = null,
             ReminderModel reminder = null)
         {
-            return new CalendarEventModel {
+           var calendarEvent = new CalendarEventModel {
                 Color = color,
                 Title = title,
                 Description = description,
                 Start = start,
                 End = end,
-                Reminder = reminder
+                Reminders = new List<ReminderModel>()
             };
+
+            if (reminder != null)
+                calendarEvent.Reminders.Add(reminder);
+
+           return calendarEvent;
         }
 
         public static ReminderModel CreateReminder(DateTime time, bool active, ReminderTimeOffset timeOffset) 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Models 
 {
@@ -10,7 +11,7 @@ namespace Domain.Models
         public string Description { get; private set; }
         public DateTime Start { get; private set; }
         public DateTime? End { get; private set; }
-        public Reminder Reminder { get; private set; }
+        public ICollection<Reminder> Reminders { get; private set; }
 
         private CalendarEvent() { }
 
@@ -27,12 +28,13 @@ namespace Domain.Models
                 Title = title,
                 Description = description,
                 Start = start,
-                End = end
+                End = end,
+                Reminders = new List<Reminder>()
             };
         }
 
         public CalendarEvent WithReminder(Reminder reminder) {
-            this.Reminder = reminder;
+            this.Reminders.Add(reminder);
             return this;
         }
     }

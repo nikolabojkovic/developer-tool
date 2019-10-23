@@ -56,7 +56,7 @@ namespace WebApi
             });
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
             services.AddDbContext<BackOfficeContext>(opt =>
-                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
+                     opt.UseMySql(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
@@ -93,6 +93,7 @@ namespace WebApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
+            
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
@@ -103,10 +104,20 @@ namespace WebApi
             services.Configure<JwtOptions>(Configuration.GetSection("Jwt"));  
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,  IHostingEnvironment env, ILoggerFactory loggerFactory)
         {     
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();       
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection(); 
+
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
                 await next.Invoke();
