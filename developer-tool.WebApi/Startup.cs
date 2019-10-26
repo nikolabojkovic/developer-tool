@@ -25,6 +25,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WebApi
 {
@@ -94,8 +96,13 @@ namespace WebApi
                 };
             });
             
+            var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
+                opt.Filters.Add(new AuthorizeFilter(policy));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());

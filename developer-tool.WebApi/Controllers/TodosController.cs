@@ -25,7 +25,6 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public IActionResult GetAll()
         {
             var items = _todoService.GetAllData();
@@ -34,7 +33,6 @@ namespace WebApi.Controllers
             return SuccessObjectResult.Data(viewModels);
         }
 
-        // [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

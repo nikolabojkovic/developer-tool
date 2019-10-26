@@ -5,8 +5,9 @@ using WebApi.InputModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers {
-
+        
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class ContactController : Controller
     {
         private readonly IEmailService _emailService;

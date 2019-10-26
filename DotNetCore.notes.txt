@@ -1,5 +1,10 @@
 db viewer - sequel pro
 
+// local db
+url: localhost or 127.0.0.1
+username : root
+passw: ""
+
 // check mySql version
 navigate to my sql folder:  cd /usr/local/bin
 run command: ./mysql --version
@@ -101,3 +106,6 @@ https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-6
 // inportant links
 https://medium.com/asos-techblog/testing-authorization-scenarios-in-asp-net-core-web-api-484bc95d5f6f
 https://auth0.com/blog/securing-asp-dot-net-core-2-applications-with-jwts/
+
+// add authorization roles support
+https://dzone.com/articles/global-authorization-filter-in-net-core-net-core-s
