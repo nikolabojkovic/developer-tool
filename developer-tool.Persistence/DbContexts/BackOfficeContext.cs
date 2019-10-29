@@ -16,18 +16,7 @@ namespace Persistence.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             base.OnModelCreating(modelBuilder);           
-
-            // foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            // {
-            //     foreach (var property in entityType.GetProperties())
-            //     {
-            //         if (property.ClrType == typeof(bool))
-            //         {
-            //             property.SetValueConverter(new BoolToIntConverter());
-            //         }
-            //     }
-            // }
+            base.OnModelCreating(modelBuilder);           
 
             modelBuilder.UseEntityTypeConfiguration(typeof(TodoConfiguration).Assembly);
 
