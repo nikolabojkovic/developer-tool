@@ -40,7 +40,7 @@ namespace TestUnit.TodoTests.Services
         }
 
         [Fact]
-        public void TestTodoService_GetById_ShouldCallFindRepositoryAndAutoMapper()
+        public async Task TestTodoService_GetById_ShouldCallFindRepositoryAndAutoMapper()
         {
             // Arrange
             var expectedTodos = new TodoModel[] { };
@@ -60,7 +60,7 @@ namespace TestUnit.TodoTests.Services
             var todoService = new TodoService(todoRepository.Object, mapperMock.Object, cacheMock.Object);
 
             // Act
-            var result = todoService.GetById(1);
+            var result = await todoService.GetByIdAsync(1);
       
             // Assert
             todoRepository.Verify(x => x.Find(It.IsAny<Expression<Func<TodoModel, bool>>>()), Times.Once);

@@ -8,6 +8,7 @@ using WebApi.InputModels;
 using Domain.Models;
 using WebApi.Filters;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -28,16 +29,15 @@ namespace WebApi.Controllers
         public IActionResult GetAll()
         {
             var items = _todoService.GetAllData();
-            if (items == null) return NoContent();
             var viewModels = _mapper.Map<IEnumerable<TodoViewModel>>(items);
             return SuccessObjectResult.Data(viewModels);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var item = _todoService.GetById(id);
-            if (item == null) return NoContent();
+            var item = await _todoService.GetByIdAsync(id);
+            if (item == null) return NotFound();
 
             return SuccessObjectResult.Data(_mapper.Map<TodoViewModel>(item));
         }
@@ -65,11 +65,11 @@ namespace WebApi.Controllers
 
         [HttpPut("{id}")]
         [TransactionFilter]
-        public IActionResult Update(int id, [FromBody] TodoInputModel item)
+        public async Task<IActionResult> Update(int id, [FromBody] TodoInputModel item)
         {
             // Guards
             if (item == null) return BadRequest();
-            var existingItem = _todoService.GetById(id);
+            var existingItem = await _todoService.GetByIdAsync(id);
             if (existingItem == null) return NotFound();
 
             var mappedItem = _mapper.Map<Todo>(item);
@@ -84,9 +84,9 @@ namespace WebApi.Controllers
 
         [HttpDelete("{id}")]
         [TransactionFilter]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-             var item = _todoService.GetById(id);
+             var item = await _todoService.GetByIdAsync(id);
             if (item == null) return NotFound();
 
             _todoService.Remove(id);
@@ -95,10 +95,10 @@ namespace WebApi.Controllers
 
         [HttpPut("complete/{id}")]
         [TransactionFilter]
-        public IActionResult Complete(int id)
+        public async Task<IActionResult> Complete(int id)
         {
             // Guards
-            var existingItem = _todoService.GetById(id);
+            var existingItem = await _todoService.GetByIdAsync(id);
             if (existingItem == null) return NotFound();
 
             // Update logic
@@ -110,10 +110,10 @@ namespace WebApi.Controllers
         
         [HttpPut("uncomplete/{id}")]
         [TransactionFilter]
-        public IActionResult UnComplete(int id)
+        public async Task<IActionResult> UnComplete(int id)
         {
             // Guards
-            var existingItem = _todoService.GetById(id);
+            var existingItem = await _todoService.GetByIdAsync(id);
             if (existingItem == null) return NotFound();
 
             // Update logic
@@ -125,10 +125,10 @@ namespace WebApi.Controllers
 
         [HttpPut("archive/{id}")]
         [TransactionFilter]
-        public IActionResult Archive(int id)
+        public async Task<IActionResult> Archive(int id)
         {
             // Guards
-            var existingItem = _todoService.GetById(id);
+            var existingItem = await _todoService.GetByIdAsync(id);
             if (existingItem == null) return NotFound();
 
             // Update logic

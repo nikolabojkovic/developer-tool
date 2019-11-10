@@ -7,6 +7,7 @@ using Domain.Models;
 using Domain.PersistenceModels;
 using System.Threading.Tasks;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -54,16 +55,17 @@ namespace Application.Services
             return domainModels;
         }
 
-        public Todo GetById(int id)
+        public async Task<Todo> GetByIdAsync(int id)
         {
-            var cachedItem = Task.Run(() => _cache.GetAsync<Todo>($"Todo_{id}")).Result;
+            var cachedItem = await _cache.GetAsync<Todo>($"Todo_{id}");
             if (cachedItem != null)
                 return cachedItem;
 
+            // TODO: convert IRepository to async
             var repoModel = _todoRepository.Find(x => x.Id == id)
                                            .FirstOrDefault();
             var domainModel = _mapper.Map<Todo>(repoModel);
-            Task.Run(() => _cache.SetAsync<Todo>($"Todo_{id}", domainModel, TimeSpan.FromMilliseconds(_cache.CacheOptions.DefaultCacheTime))).Wait();
+            await _cache.SetAsync<Todo>($"Todo_{id}", domainModel, TimeSpan.FromMilliseconds(_cache.CacheOptions.DefaultCacheTime));
             return domainModel;
         }
 

@@ -5,7 +5,8 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System;
+using System.Collections.Generic;
+using WebApi.InputModels;
 
 namespace TestIntegration {
 
@@ -47,10 +48,12 @@ namespace TestIntegration {
                 Description = description,
                 Start = start,
                 End = end,
-                Reminder = new {
-                    Time = reminderTime,
-                    Active = isReminderActive,
-                    TimeOffset = reminderTimeOffset
+                Reminders = new List<dynamic>{ 
+                    new {
+                        Time = reminderTime,
+                        Active = isReminderActive,
+                        TimeOffset = reminderTimeOffset
+                    }   
                 }
             };
 

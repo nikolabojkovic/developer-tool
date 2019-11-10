@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WebApi.InputModels 
 {
@@ -8,6 +9,6 @@ namespace WebApi.InputModels
         public string Description { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public ReminderInputModel Reminder { get; set; }
+        public IEnumerable<ReminderInputModel> Reminders { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using WebApi.InputModels;
 using WebApi.Results;
+using System.Linq;
 
 namespace WebApi.Controllers 
 {
@@ -54,12 +55,12 @@ namespace WebApi.Controllers
                 item.Start,
                 item.End);
 
-            if (item.Reminder != null)    
+            if (item.Reminders != null)    
                 newItem.WithReminder(
                     Reminder.Create(
-                        item.Reminder.Active,
-                        item.Reminder.Time,
-                        item.Reminder.TimeOffset));
+                        item.Reminders.ToArray()[0].Active,
+                        item.Reminders.ToArray()[0].Time,
+                        item.Reminders.ToArray()[0].TimeOffset));
 
             _calendarService.Store(newItem);
             return Ok();

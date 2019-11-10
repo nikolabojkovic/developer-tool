@@ -11,12 +11,12 @@ using AutoMapper;
 using Persistence.DbContexts;
 using Persistence.Core;
 using WebApi.Validation;
-using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Persistence.Data;
 using Core.Options;
 using MediatR;
 using WebApi.Middlewares;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestIntegration
 {
@@ -57,10 +57,12 @@ namespace TestIntegration
                 options.Issuer = "http://localhost:5000";
             });
             services.AddMvc(opt => {
-                opt.Filters.Add(typeof(ValidatorActionFilter));
-                opt.OutputFormatters.Add(new HtmlOutputFormatter());
-            }).AddFluentValidation(fvc =>
-                fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
+                         opt.Filters.Add(typeof(ValidatorActionFilter));
+                         opt.OutputFormatters.Add(new HtmlOutputFormatter());
+                     })
+                     .AddFluentValidation(fvc =>
+                         fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>())
+                     .AddApplicationPart(Assembly.Load("WebApi"));
         }
 
         public void Configure(IApplicationBuilder app)

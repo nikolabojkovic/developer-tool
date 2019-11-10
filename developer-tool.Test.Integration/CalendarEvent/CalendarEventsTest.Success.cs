@@ -10,6 +10,7 @@ using FluentAssertions;
 using Domain.Enums;
 using System.Net;
 using System.Text;
+using System.Linq;
 
 namespace TestIntegration
 {
@@ -64,9 +65,9 @@ namespace TestIntegration
             result.Description.Should().Be(description);
             result.Start.Should().Be(DateTime.Parse(start));
             result.End.Should().Be(optionalEndDate);
-            result.Reminder.Time.Should().Be(DateTime.Parse(reminderTime));
-            result.Reminder.Active.Should().Be(isReminderActive);
-            result.Reminder.TimeOffset.Should().Be(reminderTimeOffset);
+            result.Reminders.ToArray()[0].Time.Should().Be(DateTime.Parse(reminderTime));
+            result.Reminders.ToArray()[0].Active.Should().Be(isReminderActive);
+            result.Reminders.ToArray()[0].TimeOffset.Should().Be(reminderTimeOffset);
         }
 
         [Theory]
@@ -145,10 +146,11 @@ namespace TestIntegration
                 Description = description,
                 Start = DateTime.Parse(start),
                 End = end == null ? default(DateTime) : DateTime.Parse(end),
-                Reminder = new ReminderInputModel {
-                    Time = DateTime.Parse(reminderTime),
-                    Active = isReminderActive,
-                    TimeOffset = reminderTimeOffset
+                Reminders = new List<ReminderInputModel> { new ReminderInputModel {
+                            Time = DateTime.Parse(reminderTime),
+                            Active = isReminderActive,
+                            TimeOffset = reminderTimeOffset
+                        }
                 }
             };
             var json = JsonConvert.SerializeObject(inputModel);
@@ -217,10 +219,11 @@ namespace TestIntegration
                 Description = description,
                 Start = DateTime.Parse(start),
                 End = end == null ? default(DateTime?) : DateTime.Parse(end),
-                Reminder = new ReminderInputModel {
-                    Time = DateTime.Parse(reminderTime),
-                    Active = isReminderActive,
-                    TimeOffset = reminderTimeOffset
+                Reminders = new List<ReminderInputModel> { new ReminderInputModel {
+                        Time = DateTime.Parse(reminderTime),
+                        Active = isReminderActive,
+                        TimeOffset = reminderTimeOffset
+                    }
                 }
             };
             var json = JsonConvert.SerializeObject(inputModel);

@@ -20,13 +20,13 @@ namespace TestIntegration
 
         [Theory]
         [InlineData(5)]
-        public async Task TestGetTodo_ById_ShouldReturnNoContentFound(int id)
+        public async Task TestGetTodo_ById_ShouldReturnNotFound(int id)
         {
             var response = await _client.GetAsync($"/api/todos/{id}");
             var stringResponse = await response.Content.ReadAsStringAsync();
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent); 
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound); 
         }
 
         [Fact]
