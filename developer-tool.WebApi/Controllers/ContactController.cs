@@ -2,21 +2,18 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using WebApi.InputModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers {
-
+        
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class ContactController : Controller
     {
         private readonly IEmailService _emailService;
         public ContactController(IEmailService emailService)
         {
             _emailService = emailService;
-        }
-
-        [HttpPost]
-        public void get() {
-
         }
 
         [HttpPost("send/email")]

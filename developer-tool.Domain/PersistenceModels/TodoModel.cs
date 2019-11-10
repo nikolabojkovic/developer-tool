@@ -1,8 +1,6 @@
-using Domain.Models;
-
 namespace Domain.PersistenceModels 
 {
-    public class TodoModel : Entity
+    public class TodoModel : EntityModel
     {
         public string Description { get; set; }
         public bool IsCompleted { get; set; }

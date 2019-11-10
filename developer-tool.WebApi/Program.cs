@@ -34,6 +34,7 @@ namespace WebApi
                     var context = services.GetRequiredService<BackOfficeContext>();
                     DbInitializer.Initialize(context);
                     DbInitializer.SeedEvents(context);
+                    DbInitializer.SeedUsers(context);
                 }
                 catch (Exception ex)
                 {

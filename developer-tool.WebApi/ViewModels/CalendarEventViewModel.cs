@@ -1,5 +1,5 @@
 using System;
-using Domain.Enums;
+using System.Collections.Generic;
 
 namespace WebApi.ViewModels {
     public class CalendarEventViewModel {
@@ -9,6 +9,6 @@ namespace WebApi.ViewModels {
         public string Description { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public ReminderViewModel Reminder { get; set; }
+        public IEnumerable<ReminderViewModel> Reminders { get; set; }
     }
 }

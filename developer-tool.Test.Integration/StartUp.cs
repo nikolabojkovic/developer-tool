@@ -1,4 +1,3 @@
-using Email.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -12,24 +11,21 @@ using AutoMapper;
 using Persistence.DbContexts;
 using Persistence.Core;
 using WebApi.Validation;
-using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Persistence.Data;
 using Core.Options;
+using MediatR;
+using WebApi.Middlewares;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestIntegration
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
-
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                 .SetBasePath(env.ContentRootPath)
-                 .AddJsonFile("appsettings.test.json", optional: false, reloadOnChange: true);
-
-            Configuration = builder.Build();
+             new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                                       .Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -45,22 +41,33 @@ namespace TestIntegration
                     });
             });
             services.AddDbContext<BackOfficeContext>(opt => opt.UseInMemoryDatabase("backoffice_database"));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();                       
+            services.AddTransient<IUnitOfWork, UnitOfWork>();  
+            services.AddMediatR(new Assembly[] { Assembly.Load("Application") });                    
             services.AddAutoMapper(typeof(WebApi.Startup));
             services.AddDistributedMemoryCache();
+            services.AddOptions();
+            services.Configure<CacheOptions>(options =>
+            {
+                options.IsCachingEnabled = false;
+                options.DefaultCacheTime = 0;
+            });
+            services.Configure<JwtOptions>(options =>  
+            {
+                options.Key = "JwtTestKey-woifj2f2iefjo2eifj2oef";
+                options.Issuer = "http://localhost:5000";
+            });
             services.AddMvc(opt => {
-                opt.Filters.Add(typeof(ValidatorActionFilter));
-                opt.OutputFormatters.Add(new HtmlOutputFormatter());
-            }).AddFluentValidation(fvc =>
-                fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>());
-            services.AddOptions();
-            services.AddOptions();
-            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
+                         opt.Filters.Add(typeof(ValidatorActionFilter));
+                         opt.OutputFormatters.Add(new HtmlOutputFormatter());
+                     })
+                     .AddFluentValidation(fvc =>
+                         fvc.RegisterValidatorsFromAssemblyContaining<WebApi.Startup>())
+                     .AddApplicationPart(Assembly.Load("WebApi"));
         }
 
         public void Configure(IApplicationBuilder app)
-        {            
+        {             
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
@@ -69,9 +76,8 @@ namespace TestIntegration
         {
             Assembly[] assemblies = {
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Application"),
-                Assembly.Load("Core"),
-                Assembly.Load("Persistence")
+                Assembly.Load("Persistence"),
+                Assembly.Load("Application")
             };
 
             builder.RegisterAssemblyTypes(assemblies)
@@ -87,7 +93,6 @@ namespace TestIntegration
             IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            // this.Configure(app, env, loggerFactory);
             this.Configure(app);
             PopulateTestData(app);
         }
@@ -96,6 +101,7 @@ namespace TestIntegration
         {
             var dbContext = app.ApplicationServices.GetService<BackOfficeContext>();
             DbInitializer.SeedEvents(dbContext);
+            DbInitializer.SeedUsers(dbContext);
         }
     }
 

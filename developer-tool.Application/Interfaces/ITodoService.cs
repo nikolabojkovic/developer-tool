@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Domain.Models;
 
 namespace Application.Interfaces
@@ -6,7 +7,7 @@ namespace Application.Interfaces
     public interface ITodoService
     {
         IEnumerable<Todo> GetAllData();
-        Todo GetById(int id);
+        Task<Todo> GetByIdAsync(int id);
         void Store(Todo item);
         void Update(Todo item);
         void Remove(int id);

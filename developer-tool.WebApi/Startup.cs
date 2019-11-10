@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using FluentValidation.AspNetCore;
 using System;
 using System.Threading.Tasks;
-using Email.Services;
+using Swashbuckle.AspNetCore.Swagger;
 using Persistence.DbContexts;
 using Persistence.Core;
 using Core.Interfaces;
@@ -20,8 +20,13 @@ using AutoMapper;
 using System.Linq;
 using MediatR;
 using WebApi.Middlewares;
-using Microsoft.OpenApi.Models;
 using Core.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WebApi
 {
@@ -53,30 +58,73 @@ namespace WebApi
             });
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
             services.AddDbContext<BackOfficeContext>(opt =>
-                     opt.UseMySQL(Configuration.GetConnectionString("MySqlConnection"),
+                     opt.UseMySql(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IEmailService, EmailService>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddDistributedMemoryCache();
             services.AddAutoMapper();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Developer-tool API", Version = "v1" });
+                options.SwaggerDoc("v1", new Info { Title = "Developer-tool API", Version = "v1" });
+ 
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                });
             });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+            
+            var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
+                opt.Filters.Add(new AuthorizeFilter(policy));
                 opt.OutputFormatters.Add(new HtmlOutputFormatter());
             }).AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddOptions();
-            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));  
+            services.Configure<CacheOptions>(Configuration.GetSection("Cache:CacheOptions"));
+            services.Configure<JwtOptions>(Configuration.GetSection("Jwt"));  
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app,  IHostingEnvironment env, ILoggerFactory loggerFactory)
         {     
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();       
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection(); 
+
             app.Use(async (HttpContext context, Func<Task> next) =>
             {
                 await next.Invoke();
@@ -88,7 +136,7 @@ namespace WebApi
                 }
             });
 
-            app.UseSwagger();            
+            app.UseSwagger();
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -98,6 +146,7 @@ namespace WebApi
                 c.RoutePrefix = "api";
             });
             app.UseCors("AllowAllOrigins");
+            app.UseAuthentication();
             app.UseMvc();
         }
 
@@ -106,8 +155,7 @@ namespace WebApi
             Assembly[] assemblies = {
                 Assembly.Load("Persistence"),
                 Assembly.Load("Infrastructure"),
-                Assembly.Load("Application"),
-                Assembly.Load("Core")
+                Assembly.Load("Application")
             };
 
             builder.RegisterAssemblyTypes(assemblies)

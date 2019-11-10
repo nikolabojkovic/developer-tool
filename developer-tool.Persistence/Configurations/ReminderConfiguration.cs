@@ -1,5 +1,4 @@
 using Domain.PersistenceModels;
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +9,12 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<ReminderModel> builder)
         {
             builder.ToTable("Reminders");
+            builder.Property(x => x.Active);
             builder.HasKey(x => x.Id);
+            builder.HasOne(x => x.Event)
+                   .WithMany(x => x.Reminders)
+                   .HasForeignKey(x => x.EventId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

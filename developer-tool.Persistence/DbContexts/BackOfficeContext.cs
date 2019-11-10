@@ -4,7 +4,7 @@ using Persistence.Configurations;
 using System.Reflection;
 using System.Linq;
 using Persistence.Extensions;
-using Domain.Models;
+using Persistence.Core;
 
 namespace Persistence.DbContexts
 {
@@ -16,11 +16,11 @@ namespace Persistence.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);           
+
             modelBuilder.UseEntityTypeConfiguration(typeof(TodoConfiguration).Assembly);
 
             RegisterEntities(modelBuilder);
-
-            base.OnModelCreating(modelBuilder);
         }
 
         private void RegisterEntities(ModelBuilder modelBuilder)
@@ -28,7 +28,7 @@ namespace Persistence.DbContexts
             MethodInfo entityMethod = typeof(ModelBuilder).GetMethods().First(m => m.Name == "Entity" && m.IsGenericMethod);
 
             var entityTypes = Assembly.GetAssembly(typeof(TodoModel)).GetTypes()
-                .Where(x => x.IsSubclassOf(typeof(Entity)) && !x.IsAbstract);
+                .Where(x => x.IsSubclassOf(typeof(EntityModel)) && !x.IsAbstract);
 
             foreach (var type in entityTypes)
             {

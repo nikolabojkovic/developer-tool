@@ -1,10 +1,12 @@
 using AutoMapper;
 using Domain.PersistenceModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers 
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     public class CvController : Controller
     {
         private readonly IMapper _mapper;

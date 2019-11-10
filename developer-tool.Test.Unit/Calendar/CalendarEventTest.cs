@@ -3,6 +3,7 @@ using Xunit;
 using Domain.Models;
 using FluentAssertions;
 using Domain.Enums;
+using System.Linq;
 
 namespace TestUnit 
 {
@@ -57,9 +58,9 @@ namespace TestUnit
             expectedEvent.Description.Should().Be(description);
             expectedEvent.Start.Should().Be(startDate);
             expectedEvent.End.Should().Be(optionalEndDate);
-            expectedEvent.Reminder.Time.Should().Be(DateTime.Parse(reminderTime));
-            expectedEvent.Reminder.Active.Should().Be(reminderActive);
-            expectedEvent.Reminder.TimeOffset.Should().Be(reminderTimeOffset);
+            expectedEvent.Reminders.ToArray()[0].Time.Should().Be(DateTime.Parse(reminderTime));
+            expectedEvent.Reminders.ToArray()[0].Active.Should().Be(reminderActive);
+            expectedEvent.Reminders.ToArray()[0].TimeOffset.Should().Be(reminderTimeOffset);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Application.Services
         public IEnumerable<CalendarEvent> GetAllData()
         {
             var repoModels = _calendarEventRepository.FindAll()
-                                                     .Include(x => x.Reminder);
+                                                     .Include(x => x.Reminders);
             var domainModels = _mapper.Map<IEnumerable<CalendarEvent>>(repoModels);
             return domainModels;
         }
@@ -33,7 +33,7 @@ namespace Application.Services
         public CalendarEvent GetById(int id)
         {
             var repoModel = _calendarEventRepository.Find(x => x.Id == id)
-                                                    .Include(x => x.Reminder)
+                                                    .Include(x => x.Reminders)
                                                     .FirstOrDefault();
             var domainModel = _mapper.Map<CalendarEvent>(repoModel);
             return domainModel;
@@ -48,7 +48,7 @@ namespace Application.Services
         public void Update(CalendarEvent entity)
         {
             var existingItem = _calendarEventRepository.Find(x => x.Id == entity.Id)
-                                                       .Include(x => x.Reminder)
+                                                       .Include(x => x.Reminders)
                                                        .FirstOrDefault();            
             existingItem = _mapper.Map<CalendarEvent, CalendarEventModel>(entity, existingItem);
             _calendarEventRepository.Update(existingItem);

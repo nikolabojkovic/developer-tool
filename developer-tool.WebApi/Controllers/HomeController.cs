@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers
 {
+    [AllowAnonymous]
     [Route("/")]
     public class HomeController : Controller
     {

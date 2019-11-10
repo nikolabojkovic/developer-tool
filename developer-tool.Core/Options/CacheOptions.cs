@@ -1,5 +1,3 @@
-using System;
-
 namespace Core.Options
 {
     public class CacheOptions

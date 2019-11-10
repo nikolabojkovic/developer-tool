@@ -14,3 +14,11 @@ dotnet ef database update --context TestContext --startup-project /Users/mac/Doc
 
 // see migration list
 dotnet ef migrations list --context TestContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+
+TEMP:
+dotnet ef migrations add InitialMigration --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+dotnet ef database update --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj
+
+dotnet ef migrations remove --context BackOfficeContext --startup-project /Users/mac/Documents/Projects/DotNet/developer-tool/developer-tool.webapi/WebApi.csproj

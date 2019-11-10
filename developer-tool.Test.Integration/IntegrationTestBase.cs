@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore;
 
 namespace TestIntegration
 {

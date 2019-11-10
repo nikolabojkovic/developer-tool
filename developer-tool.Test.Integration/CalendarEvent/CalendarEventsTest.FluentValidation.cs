@@ -5,6 +5,8 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Collections.Generic;
+using WebApi.InputModels;
 
 namespace TestIntegration {
 
@@ -46,10 +48,12 @@ namespace TestIntegration {
                 Description = description,
                 Start = start,
                 End = end,
-                Reminder = new {
-                    Time = reminderTime,
-                    Active = isReminderActive,
-                    TimeOffset = reminderTimeOffset
+                Reminders = new List<dynamic>{ 
+                    new {
+                        Time = reminderTime,
+                        Active = isReminderActive,
+                        TimeOffset = reminderTimeOffset
+                    }   
                 }
             };
 
@@ -59,6 +63,7 @@ namespace TestIntegration {
             // Act
             var response = await _client.PutAsync($"/api/calendar/events/{id}", stringContent);
             var stringResponse = await response.Content.ReadAsStringAsync();
+            // Console.WriteLine(stringResponse);
             stringResponse.Contains(errorMessage).Should().BeTrue();
 
             // Assert

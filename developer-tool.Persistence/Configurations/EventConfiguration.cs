@@ -12,9 +12,6 @@ namespace Persistence.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).IsRequired();
             builder.Property(x => x.Start).IsRequired();
-            builder.HasOne(x => x.Reminder)
-                   .WithOne()
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

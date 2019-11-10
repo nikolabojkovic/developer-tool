@@ -17,10 +17,9 @@ namespace Persistence.Extensions
             return interfaceType.GetGenericArguments().First();
         }
 
-        private static readonly Dictionary<Assembly, IEnumerable<Type>> TypesPerAssembly = new Dictionary<Assembly, IEnumerable<Type>>();
-
         public static ModelBuilder UseEntityTypeConfiguration(this ModelBuilder modelBuilder, Assembly assembly)
         {
+            Dictionary<Assembly, IEnumerable<Type>> TypesPerAssembly = new Dictionary<Assembly, IEnumerable<Type>>();
             if (TypesPerAssembly.TryGetValue(assembly, out IEnumerable<Type> configurationTypes) == false)
             {
                 TypesPerAssembly[assembly] = configurationTypes = assembly
