@@ -14,8 +14,7 @@ UseMySQL - SQL have to be uppercase letters
 
 dotnet build --configuration Release
 
-to deploy: dotnet publish -f netcoreapp2.0 -c Release
-           dotnet publish -f netcoreapp2.2 -c Release
+to deploy: dotnet publish -f netcoreapp2.2 -c Release
 
 db connection string 
 "MySqlConnection": "server=mysql6001.site4now.net;userid=a355da_test;pwd=gaim5867;port=3306;database=db_a355da_test;sslmode=none;"
