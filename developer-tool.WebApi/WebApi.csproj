@@ -23,13 +23,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Never" />
+    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="appsettings.development.json" Link="appsettings.development.json" CopyToOutputDirectory="Never" />
     <Content Update="appsettings.production.json" Link="appsettings.production.json" CopyToOutputDirectory="Never" />
 
     <Content Update="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="Always" />
-    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="Never" />
+    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="PreserveNewest" />
     <Content Update="appsettings.json" Link="appsettings.json" CopyToPublishDirectory="PreserveNewest" />
     <Content Update="appsettings.development.json" Link="appsettings.development.json" CopyToPublishDirectory="Never" />
     <Content Update="appsettings.production.json" Link="appsettings.production.json" CopyToPublishDirectory="Never" />

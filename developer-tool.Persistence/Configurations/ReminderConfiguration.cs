@@ -10,7 +10,8 @@ namespace Persistence.Configurations
         {
             builder.ToTable("Reminders");
             builder.Property(x => x.Active);
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id)
+                   .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
             builder.HasOne(x => x.Event)
                    .WithMany(x => x.Reminders)
                    .HasForeignKey(x => x.EventId)

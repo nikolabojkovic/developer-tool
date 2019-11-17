@@ -9,14 +9,15 @@ using Persistence.DbContexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BackOfficeContext))]
-    [Migration("20191023182340_InitialMigration")]
+    [Migration("20191117185044_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Domain.PersistenceModels.CalendarEventModel", b =>
                 {
@@ -34,7 +35,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
 
                     b.ToTable("CalendarEvents");
                 });
@@ -52,7 +54,8 @@ namespace Persistence.Migrations
 
                     b.Property<int>("TimeOffset");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
 
                     b.HasIndex("EventId");
 
@@ -73,7 +76,8 @@ namespace Persistence.Migrations
 
                     b.Property<int?>("UserId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
 
                     b.ToTable("Todos");
                 });
@@ -95,7 +99,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Username")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
 
                     b.ToTable("Users");
                 });

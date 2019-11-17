@@ -9,6 +9,9 @@ passw: ""
 navigate to my sql folder:  cd /usr/local/bin
 run command: ./mysql --version
 
+// force delete mysql table
+SET FOREIGN_KEY_CHECKS=0; DROP TABLE bericht; SET FOREIGN_KEY_CHECKS=1;
+
 dotnet add package MySql.Data.EntityFrameworkCore --version 6.10.6
 UseMySQL - SQL have to be uppercase letters
 

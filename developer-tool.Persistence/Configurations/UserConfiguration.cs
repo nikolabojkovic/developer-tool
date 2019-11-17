@@ -9,7 +9,8 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id)
+                   .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
             builder.Property(x => x.Username).IsRequired();
             builder.Property(x => x.Password).IsRequired();
             builder.Property(x => x.FirstName).IsRequired();

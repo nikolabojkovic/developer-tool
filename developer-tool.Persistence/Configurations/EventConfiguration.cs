@@ -9,7 +9,8 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<CalendarEventModel> builder)
         {
             builder.ToTable("CalendarEvents");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id)
+                   .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
             builder.Property(x => x.Title).IsRequired();
             builder.Property(x => x.Start).IsRequired();
         }

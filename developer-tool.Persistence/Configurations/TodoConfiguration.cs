@@ -11,7 +11,8 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<TodoModel> builder)
         {
             builder.ToTable("Todos");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id)
+                   .HasAnnotation("MySql:ValueGeneratedOnAdd", true);
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.IsCompleted);
             builder.Property(x => x.IsArchived);
