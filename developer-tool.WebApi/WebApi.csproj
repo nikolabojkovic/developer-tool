@@ -22,11 +22,17 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="None" />
-    <None Include="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="appsettings.development.json" Link="appsettings.development.json" CopyToOutputDirectory="None" />
-    <None Include="appsettings.production.json" Link="appsettings.production.json" CopyToOutputDirectory="None" />
+    <Content Update="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="Never" />
+    <Content Update="appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="appsettings.development.json" Link="appsettings.development.json" CopyToOutputDirectory="Never" />
+    <Content Update="appsettings.production.json" Link="appsettings.production.json" CopyToOutputDirectory="Never" />
+
+    <Content Update="static-files/**/*" Link="static-files\%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="Always" />
+    <Content Update="config/**/*" Link="config\%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.json" Link="appsettings.json" CopyToPublishDirectory="PreserveNewest" />
+    <Content Update="appsettings.development.json" Link="appsettings.development.json" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.production.json" Link="appsettings.production.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
