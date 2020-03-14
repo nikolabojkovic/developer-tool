@@ -30,6 +30,9 @@ dotnet ef database update
 
 set environment:
 
+// get https certificate 
+dotnet dev-certs https --trust
+
 when runing app
 ASPNETCORE_ENVIRONMENT=Development dotnet run
 
