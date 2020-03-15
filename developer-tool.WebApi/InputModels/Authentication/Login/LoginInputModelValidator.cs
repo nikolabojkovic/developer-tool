@@ -9,7 +9,7 @@ namespace WebApi.InputModels
         {
             RuleFor(m => m.Username).Must(u => u.Length >= 3)
                                     .WithMessage("Username should be at least 3 characters long.");
-            RuleFor(m => m.Username).Must(u => Regex.IsMatch(u, @"^[a-z0-9]{3,}$"))
+            RuleFor(m => m.Username).Must(u => Regex.IsMatch(u, @"^[a-zA-Z0-9]{3,}$"))
                                     .WithMessage("Username should contain only alphanumeric values.");
             RuleFor(m => m.Password).Must(p => p.Length >= 8)
                                     .WithMessage("Password should be at least 8 characters long.");

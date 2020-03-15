@@ -31,6 +31,7 @@ namespace WebApi.Middlewares
 
                 context.Response.StatusCode = (int)statusCode;
                 var jsonResponse = new { Message = exception.Message };
+                context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
             }
         }
