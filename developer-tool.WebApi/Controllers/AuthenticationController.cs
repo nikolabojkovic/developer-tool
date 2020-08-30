@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 using WebApi.InputModels;
 using WebApi.Results;
 
@@ -22,6 +23,7 @@ namespace WebApi.Controllers
         }
 
         [AllowAnonymous]
+        [TransactionFilter]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterInputModel inputModel) 
         {

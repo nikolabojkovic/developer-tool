@@ -52,8 +52,7 @@ namespace WebApi
                     {
                         builder.AllowAnyOrigin()
                                .AllowAnyMethod()
-                               .AllowAnyHeader()
-                               .AllowCredentials();
+                               .AllowAnyHeader();
                     });
             });
             services.AddDbContext<InMemoryContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));

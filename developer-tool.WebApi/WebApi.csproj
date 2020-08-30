@@ -33,6 +33,12 @@
     <Content Update="appsettings.json" Link="appsettings.json" CopyToPublishDirectory="PreserveNewest" />
     <Content Update="appsettings.development.json" Link="appsettings.development.json" CopyToPublishDirectory="Never" />
     <Content Update="appsettings.production.json" Link="appsettings.production.json" CopyToPublishDirectory="Never" />
+    <Content Update="config\production\web.config">
+      <Link>config\config\production\web.config</Link>
+    </Content>
+    <Content Update="config\test\web.config">
+      <Link>config\config\test\web.config</Link>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\developer-tool.infrastructure\Infrastructure.csproj" />
