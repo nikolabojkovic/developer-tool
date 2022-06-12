@@ -31,10 +31,11 @@ namespace Email.Services
                 using (var emailMessage = new MailMessage())
                 {
                     emailMessage.To.Add(new MailAddress(_configuration["Email:Email"]));
-                    emailMessage.From = new MailAddress(email);
+                    emailMessage.From = new MailAddress(_configuration["Email:Email"]);
+                    emailMessage.ReplyToList.Add(new MailAddress(email));
                     emailMessage.Subject = subject;
                     emailMessage.Body = "Name: " + name + "; Phone: " + phone + "; Message: " + message;
-                    client.Send(emailMessage);
+                    await client.SendMailAsync(emailMessage);
                 }
             }
             await Task.CompletedTask;

@@ -18,6 +18,8 @@ UseMySQL - SQL have to be uppercase letters
 dotnet build --configuration Release
 
 to deploy: dotnet publish -f netcoreapp2.2 -c Release
+dotnet publish -f net5.0 -c Release
+dotnet publish -f net6.0 -c Release
 
 db connection string 
 "MySqlConnection": "server=mysql6001.site4now.net;userid=a355da_test;pwd=gaim5867;port=3306;database=db_a355da_test;sslmode=none;"
@@ -35,6 +37,9 @@ dotnet dev-certs https --trust
 
 when runing app
 ASPNETCORE_ENVIRONMENT=Development dotnet run
+
+// watch changes 
+dotnet watch run
 
 prior to running app:
 export ASPNETCORE_ENVIRONMENT=Development

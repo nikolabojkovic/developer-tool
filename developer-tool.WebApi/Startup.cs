@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Email.Services;
 
 namespace WebApi
 {
@@ -60,6 +61,7 @@ namespace WebApi
                      opt.UseMySql(Configuration.GetConnectionString("MySqlConnection"),
                                   x => x.MigrationsAssembly("Persistence")));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddMediatR(new Assembly[] { Assembly.Load("Application") });
             services.AddDistributedMemoryCache();
             services.AddAutoMapper();
